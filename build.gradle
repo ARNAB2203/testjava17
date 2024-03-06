@@ -20,7 +20,7 @@ application {
 
 
 jlink {
-    options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+    options = ['--strip-java-debug-attributes', '--compress', '2', '--no-header-files', '--no-man-pages']
     launcher {
         name = 'hellofx'
     }
@@ -31,7 +31,6 @@ jlink {
             installerOptions = [
                     '--vendor', 'Mopria',
                     '--app-version', "1.9.0",
-                    '--verbose',
                     '--win-dir-chooser',
                     '--win-shortcut',
                     '--win-per-user-install',
