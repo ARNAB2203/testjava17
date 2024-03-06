@@ -4,6 +4,7 @@ version: 2.1
 
 orbs:
   win: circleci/windows@5.0
+  toolset: sensu/wixtoolset@1.0.0
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/jobs-steps/#jobs-overview & https://circleci.com/docs/configuration-reference/#jobs
@@ -42,11 +43,12 @@ jobs:
       - run:
           name: Print Java Version
           command: 'java -version'
-      - run:
-          name: Build
-          shell: bash.exe
-          command: |
-            export WIX_PATH="$CIRCLE_WORKING_DIRECTORY\wix\wix311-binaries"
+#      - run:
+#          name: Build
+#          shell: bash.exe
+#          command: |
+#            export WIX_PATH="$CIRCLE_WORKING_DIRECTORY\wix\wix311-binaries"
+
       - run:
           name: Print Jlink Version
           command: 'jpackage --version'
