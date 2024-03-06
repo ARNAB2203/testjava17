@@ -2,19 +2,21 @@
 # See: https://circleci.com/docs/configuration-reference
 version: 2.1
 
+orbs:
+  win: circleci/windows@5.0
+
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/jobs-steps/#jobs-overview & https://circleci.com/docs/configuration-reference/#jobs
 jobs:
   build-windows:
     # Specify the execution environment. You can specify an image from Docker Hub or use one of our convenience images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/executor-intro/ & https://circleci.com/docs/configuration-reference/#executor-job
-    machine:
+    executor: win/server-2022
       # Specify the version you desire here
       # See: https://circleci.com/developer/images/image/cimg/openjdk
       #      - image: cimg/base:2022.06
       #      - image: ubuntu-2204:2024.01.1
-      - image: azul/zulu-openjdk:17.0.9
-
+#      - image: azul/zulu-openjdk:17.0.9
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/circleci-images/
