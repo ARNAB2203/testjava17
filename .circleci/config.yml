@@ -10,9 +10,9 @@ jobs:
     steps:
       - run: Write-Host 'Hello, Windows'
 
-      - run: gradle dependencies
-      - run: gradle jlink
-      - run: gradle jpackage
+      - run: ./gradlew dependencies
+      - run: ./gradlew jlink
+      - run: ./gradlew jpackage
 
       - store_artifacts:
           path: /build/jpackage
