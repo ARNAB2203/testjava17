@@ -18,6 +18,13 @@ application {
     mainModule = "hellofx"
 }
 
+tasks.register('buildDocs', Exec) {
+    description 'Create a user doc from doc/user.md. Requires pandoc and latex.'
+    workingDir "$rootProject.layout.buildDirectory/doc"
+    commandLine 'pandoc', '--toc', '-V', "title=Mopria Certification Tool User Guide", '-V', 'geometry:margin=1in',
+            '-V', 'colorlinks', '-V', 'urlcolor=blue', '-V', 'geometry:a4paper',
+            '-f', 'markdown-implicit_figures', '-o', 'user_guide.pdf', 'user.md', 'version_history.md'
+}
 
 jlink {
     options = ['--strip-java-debug-attributes', '--compress', '2', '--no-header-files', '--no-man-pages']

@@ -75,6 +75,13 @@ jobs:
             ls -al
             echo '^^^The files in your repo^^^'
 
+      - run:
+          name: Install Pandoc
+          command: |
+            apt-get install pandoc
+
+      - run: ./gradlew buildDocs
+
 #      - run:
 #          name: Creating Dummy Artifacts
 #          command: |
