@@ -47,7 +47,7 @@ jobs:
           name: Build
           shell: bash.exe
           command: |
-            export WIX_PATH="$CIRCLE_WORKING_DIRECTORY\wix\wix311-binaries"
+            dotnet tool install --global wix
 
       - run:
           name: Print Jlink Version
