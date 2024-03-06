@@ -8,11 +8,11 @@ jobs:
     executor: win/server-2022
     steps:
       - run: Write-Host 'Hello, Windows'
-      - run: gradle dependencies
-      - run: gradle jlink
+      - run: gradlew dependencies
+      - run: gradlew jlink
 
       - store_artifacts:
-          path: /build/jpackage
+          path: /build/jlinkbase/jlinkjars
           destination: /build/libs
       - store_artifacts:
           path: /tmp/artifacts
