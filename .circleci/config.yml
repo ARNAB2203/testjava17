@@ -87,11 +87,11 @@ jobs:
           path: /tmp/artifacts
 
       - store_artifacts:
-          path: /build/jpackage/hellofx_1.9.0-1_amd64.deb
-          destination: .
+          path: /build/jpackage
+          destination: hellofx_1.9.0-1_amd64.deb
 
       - store_artifacts:
-          path: /build/jpackage/*.deb
+          path: /tmp
 
       - save_cache:
           paths:
