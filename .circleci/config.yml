@@ -36,7 +36,7 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: chmod +x ./gradlew dependencies jpackage --stacktrace
+      - run: chmod +x ./gradlew dependencies jpackage
 
       - save_cache:
           paths:
