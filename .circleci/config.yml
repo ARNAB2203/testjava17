@@ -38,6 +38,11 @@ jobs:
 
       - run: gradle dependencies
       - run: gradle jlink
+      - store_artifacts:
+          path: /build/libs
+          destination: artifact-file
+      - store_artifacts:
+          path: /tmp/artifacts
 
       - save_cache:
           paths:
