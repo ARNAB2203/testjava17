@@ -59,9 +59,14 @@ jobs:
       - run: ./gradlew jlink
       - run: ./gradlew jpackage
 
+      - run:
+          name: copy deb file
+          command: chmod +x ./gradlew
+
       - store_artifacts:
-          path: /build/jlinkbase/jlinkjars
-          destination: /build/libs
+          path: /build/jpackage/*.deb
+          destination: .
+
       - store_artifacts:
           path: /tmp/artifacts
 
