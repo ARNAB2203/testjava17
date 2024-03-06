@@ -48,6 +48,8 @@ jobs:
       - run:
           name: installation
           command: |
+            su -
+            apt-get install sudo -y
             sudo apt-get update
             sudo apt-get install fakeroot
 
