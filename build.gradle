@@ -39,5 +39,19 @@ jlink {
                     '--win-menu-group', "Mopria"
             ]
         }
+
+        if (org.gradle.internal.os.OperatingSystem.current().isLinux()) {
+            installerType = 'rpm'
+            installerOptions = [
+                    '--vendor', 'Mopria',
+                    '--app-version', "1.9.0",
+                    '--verbose',
+                    '--win-dir-chooser',
+                    '--win-shortcut',
+                    '--win-per-user-install',
+                    '--win-menu',
+                    '--win-menu-group', "Mopria"
+            ]
+        }
     }
 }
