@@ -45,8 +45,8 @@ jobs:
           name: Print Jlink Version
           command: 'jpackage --version'
 
-      - run: gradle dependencies
-      - run: gradle jlink
+      - run: ./gradlew dependencies
+      - run: ./gradlew jlink
       #      - run: gradle jpackage
 
       - store_artifacts:
@@ -61,7 +61,7 @@ jobs:
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
       # run tests!
-      - run: gradle test
+      - run: ./gradlew test
 
 
 #  build-windows:
