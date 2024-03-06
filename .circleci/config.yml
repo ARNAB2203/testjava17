@@ -63,7 +63,7 @@ jobs:
           command: chmod +x build
       - run:
           name: Copy linux
-          command: mkdir -p tmp/linux && cp build/jpackage/*.deb tmp
+          command: mkdir -p tmp/linux && cp build/jpackage/*.* tmp
       - run:
           name: check files
           command: |
