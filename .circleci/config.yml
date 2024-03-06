@@ -76,11 +76,11 @@ jobs:
             echo '^^^The files in your repo^^^'
 
       - store_artifacts:
-          path: /tmp/result
+          path: /build/linux
           destination: .
 
       - store_artifacts:
-          path: /tmp/result
+          path: /build/linux
 
       - save_cache:
           paths:
