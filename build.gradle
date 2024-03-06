@@ -46,11 +46,10 @@ jlink {
                     '--vendor', 'Mopria',
                     '--app-version', "1.9.0",
                     '--verbose',
-                    '--win-dir-chooser',
-                    '--win-shortcut',
-                    '--win-per-user-install',
-                    '--win-menu',
-                    '--win-menu-group', "Mopria"
+                    '--resource-dir',
+                    '--linux-shortcut',
+                    '--linux-app-category',
+                    "Mopria"
             ]
         }
     }
