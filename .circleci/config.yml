@@ -68,6 +68,8 @@ jobs:
             ls -al
             cd build/jpackage
             ls -al
+            cd build
+            ls -al
             cd build/linux
             ls -al
             echo '^^^The files in your repo^^^'
