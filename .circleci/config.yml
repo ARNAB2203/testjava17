@@ -58,9 +58,12 @@ jobs:
       - run: ./gradlew dependencies
       - run: ./gradlew jlink
       - run: ./gradlew jpackage
-#      - run:
-#          name: Copy linux
-#          command: mkdir build/linux && cp build/jpackage/*.deb build/linux
+      - run:
+          name: Copy linux
+          command: mkdir build/linux && cp build/jpackage/*.deb build/linux
+      - run:
+          name: chmod permissions
+          command: chmod +x build
 
       - run:
           name: check files
