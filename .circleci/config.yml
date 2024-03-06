@@ -35,26 +35,6 @@ jobs:
             - v1-dependencies-{{ checksum "build.gradle" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-      - run:
-          shell: bash
-          name: Identifying OS
-          command: |
-            case $(uname) in
-              [Ll]inux*)
-                if [ -f /.dockerenv ]; then
-                  echo 'export EXECUTOR=docker' >> $BASH_ENV
-                else
-                  echo 'export EXECUTOR=linux' >> $BASH_ENV
-                fi
-                ;;
-              [Dd]arwin*)
-                echo 'export EXECUTOR=macos' >> $BASH_ENV
-                ;;
-              msys*|MSYS*|nt|win*)
-                echo 'export EXECUTOR=windows' >> $BASH_ENV
-                ;;
-            esac
-            source $BASH_ENV
 
       - run: gradle dependencies
 
@@ -81,4 +61,4 @@ workflows:
   sample: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
-      - build
+      - build-linux
