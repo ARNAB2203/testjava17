@@ -37,18 +37,6 @@ jobs:
             - v1-dependencies-{{ checksum "build.gradle" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-
-#      - run:
-#          name: Install OpenJDK
-#          command: |
-#            'sudo apt install gnupg ca-certificates curl'
-#            curl -s https://repos.azul.com/azul-repo.key | sudo gpg --dearmor -o /usr/share/keyrings/azul.gpg
-#            echo "deb [signed-by=/usr/share/keyrings/azul.gpg] https://repos.azul.com/zulu/deb stable main" | sudo tee /etc/apt/sources.list.d/zulu.list
-#            sudo apt-get update && sudo apt install zulu17-jdk
-##            sudo update-alternatives --set java /usr/lib/jvm/java-11-openjdk-amd64/bin/java
-##            sudo update-alternatives --set javac /usr/lib/jvm/java-11-openjdk-amd64/bin/javac
-#            java -version
-
       - run:
           name: Print Java Version
           command: 'java -version'
@@ -59,7 +47,7 @@ jobs:
 
       - run: gradle dependencies
       - run: gradle jlink
-      - run: gradle jpackage
+#      - run: gradle jpackage
 
       - store_artifacts:
           path: /build/jlinkbase/jlinkjars
@@ -74,6 +62,15 @@ jobs:
 
       # run tests!
       - run: gradle test
+
+
+#  build-windows:
+#    machine:
+#      image: windows-server-2019-vs2019:stable
+#      shell: powershell.exe
+#      resource_class: windows.medium
+#    steps:
+#      -
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
