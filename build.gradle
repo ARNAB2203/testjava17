@@ -44,10 +44,7 @@ jlink {
             installerType = 'rpm'
             installerOptions = [
                     '--vendor', 'Mopria',
-                    '--app-version', "1.9.0",
-                    '--verbose',
-                    '--resource-dir',
-                    '--linux-app-category'
+                    '--app-version', "1.9.0"
             ]
         }
     }
