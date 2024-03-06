@@ -65,7 +65,7 @@ jobs:
             ls -al
             cd build/jpackage
             ls -al
-            cd build/jpackage/hellofx
+#            cd build/jpackage/hellofx
             echo '^^^The files in your repo^^^'
 
       - run:
