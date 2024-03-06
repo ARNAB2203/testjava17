@@ -41,7 +41,7 @@ jlink {
         }
 
         if (org.gradle.internal.os.OperatingSystem.current().isLinux()) {
-            installerType = 'deb'
+            installerType = 'rpm'
             installerOptions = [
                     '--vendor', 'Mopria',
                     '--app-version', "1.9.0"
