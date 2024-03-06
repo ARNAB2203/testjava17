@@ -80,7 +80,7 @@ jobs:
           command: |
             apt-get install pandoc -y
 
-      - run: ./gradlew buildDocs
+#      - run: ./gradlew buildDocs
 
 #      - run:
 #          name: Creating Dummy Artifacts
