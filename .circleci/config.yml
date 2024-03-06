@@ -68,7 +68,7 @@ jobs:
             ls -al
             cd build/jpackage
             ls -al
-            cd build
+            cd ..
             ls -al
             cd build/linux
             ls -al
