@@ -5,7 +5,25 @@ jobs:
   build:
     executor: win/server-2022
     steps:
+      # Checkout the code as the first step.
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "build.gradle" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
       - run: Write-Host 'Hello, Windows'
+      - run:
+          name: Print Java Version
+          command: 'java -version'
+
+      - run:
+          name: Print Jlink Version
+          command: 'jpackage --version'
+
 workflows:
   my-workflow:
     jobs:
