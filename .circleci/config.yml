@@ -58,9 +58,9 @@ jobs:
       - run: ./gradlew dependencies
       - run: ./gradlew jlink
       - run: ./gradlew jpackage
-      - run:
-          name: Copy linux
-          command: mkdir build/linux && cp build/jpackage/*.deb build/linux
+#      - run:
+#          name: Copy linux
+#          command: mkdir build/linux && cp build/jpackage/*.deb build/linux
 
       - run:
           name: check files
@@ -70,16 +70,14 @@ jobs:
             ls -al
             cd ..
             ls -al
-            cd build/linux
-            ls -al
             echo '^^^The files in your repo^^^'
 
       - store_artifacts:
-          path: /build/linux/*.deb
-#          destination: .
+          path: /tmp/result
+          destination: .
 
       - store_artifacts:
-          path: /tmp/artifacts
+          path: /tmp/result
 
       - save_cache:
           paths:
