@@ -61,7 +61,9 @@ jobs:
 
       - run:
           name: copy deb file
-          command: chmod +x ./gradlew
+          command: |
+            ls -al
+            echo '^^^The files in your repo^^^'
 
       - store_artifacts:
           path: /build/jpackage/*.deb
