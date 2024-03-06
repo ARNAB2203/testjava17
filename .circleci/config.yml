@@ -35,9 +35,15 @@ jobs:
             - v1-dependencies-{{ checksum "build.gradle" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
+      - run:
+          name: Print Java Version
+          command: 'java -version'
+
+      - run:
+          name: Print Jlink Version
+          command: 'jpackage -version'
 
       - run: gradle dependencies
-
       - run: gradle jlink
       - run: gradle jpackage
 
