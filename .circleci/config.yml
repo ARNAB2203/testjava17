@@ -24,6 +24,8 @@ jobs:
           name: Print Jlink Version
           command: 'jpackage --version'
 
+      - run: ./gradlew dependencies
+
 workflows:
   my-workflow:
     jobs:
