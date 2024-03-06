@@ -88,8 +88,9 @@ jobs:
 
       - store_artifacts:
           path: /build
+          destination: .
 
-#      - store_artifacts:
+      #      - store_artifacts:
 #          path: /tmp
 
       - save_cache:
