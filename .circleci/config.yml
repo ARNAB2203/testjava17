@@ -48,11 +48,11 @@ jobs:
 
         - run:
             name: chmod permissions
-            command: chmod +x gradlew
+            command: chmod +x ./gradlew
 
-        - run: gradlew dependencies
-        - run: gradlew jlink
-        - run: gradlew jpackage
+#        - run: ./gradlew dependencies
+        - run: ./gradlew jlink
+        - run: ./gradlew jpackage
         - run:
             name: chmod permissions
             command: chmod +x build
@@ -75,7 +75,7 @@ jobs:
             command: |
               apt-get install pandoc -y
 
-  #      - run: gradlew buildDocs
+  #      - run: ./gradlew buildDocs
 
   #      - run:
   #          name: Creating Dummy Artifacts
@@ -102,7 +102,7 @@ jobs:
             key: v1-dependencies-{{ checksum "build.gradle" }}
 
         # run tests!
-        - run: gradlew test
+        - run: ./gradlew test
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
