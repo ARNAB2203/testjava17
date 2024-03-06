@@ -47,7 +47,6 @@ jlink {
                     '--app-version', "1.9.0",
                     '--verbose',
                     '--resource-dir',
-                    '--linux-shortcut',
                     '--linux-app-category',
                     "Mopria"
             ]
