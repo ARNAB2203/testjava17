@@ -65,11 +65,16 @@ jobs:
             ls -al
             cd build/jpackage
             ls -al
+            cd build/jpackage/hellofx
             echo '^^^The files in your repo^^^'
 
+      - run:
+          name: Copy linux
+          command: mkdir build/linux && cp build/jpackage/*.deb build/linux
+
       - store_artifacts:
-          path: /build/jpackage/*.deb
-          destination: .
+          path: /build/linux/*.deb
+#          destination: .
 
       - store_artifacts:
           path: /tmp/artifacts
