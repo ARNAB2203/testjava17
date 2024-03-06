@@ -41,7 +41,7 @@ jobs:
 
       - run:
           name: Print Jlink Version
-          command: 'jpackage -version'
+          command: 'jpackage --version'
 
       - run: gradle dependencies
       - run: gradle jlink
