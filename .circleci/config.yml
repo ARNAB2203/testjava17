@@ -46,6 +46,12 @@ jobs:
           command: 'jpackage --version'
 
       - run:
+          name: installation
+          command: |
+            sudo apt-get update
+            sudo apt-get install fakeroot
+
+      - run:
           name: chmod permissions
           command: chmod +x ./gradlew
 
