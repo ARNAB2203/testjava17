@@ -45,6 +45,10 @@ jobs:
           name: Print Jlink Version
           command: 'jpackage --version'
 
+      - run:
+          name: chmod permissions
+          command: chmod +x ./gradlew
+
       - run: ./gradlew dependencies
       - run: ./gradlew jlink
       #      - run: gradle jpackage
