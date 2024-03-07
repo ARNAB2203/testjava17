@@ -64,16 +64,16 @@ jobs:
       - run:
           name: Copy linux
           command: mkdir -p tmp/linux && cp build/jpackage/*.* tmp
-      - run:
-          name: check files
-          command: |
-            ls -al
-            cd build/jpackage
-            ls -al
-            echo '^^^jpackage files in your repo^^^'
-            cd ..
-            ls -al
-            echo '^^^The files in your repo^^^'
+#      - run:
+#          name: check files
+#          command: |
+#            ls -al
+#            cd build/jpackage
+#            ls -al
+#            echo '^^^jpackage files in your repo^^^'
+#            cd ..
+#            ls -al
+#            echo '^^^The files in your repo^^^'
 
       - run:
           name: Install Pandoc

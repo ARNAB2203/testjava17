@@ -27,6 +27,7 @@ tasks.register('buildDocs', Exec) {
 }
 
 jlink {
+    imageZip = project.file("${rootProject.layout.buildDirectory}/distributions/app-${javafx.platform.classifier}.zip")
     options = ['--strip-java-debug-attributes', '--compress', '2', '--no-header-files', '--no-man-pages']
     launcher {
         name = 'hellofx'
