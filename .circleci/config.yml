@@ -57,20 +57,8 @@ jobs:
 
       - run: ./gradlew dependencies
       - run: ./gradlew jlink
-      - persist_to_workspace:
-          root: .
-          paths:
-            - build/image
       - run: ./gradlew jpackage
-      - persist_to_workspace:
-          root: .
-          paths:
-            - build/jpackage
       - run: ./gradlew jlinkzip
-      - persist_to_workspace:
-          root: .
-          paths:
-            - build/distributions
       - run:
           name: chmod permissions
           command: chmod +x build
@@ -120,19 +108,19 @@ jobs:
 #          path: /tmp
 #          destination: .
 
-#      - persist_to_workspace:
-#          root: .
-#          paths:
-#            - build/image
-#      - persist_to_workspace:
-#          root: .
-#          paths:
-#            - build/distributions
+      - persist_to_workspace:
+          root: .
+          paths:
+            - build/image
+      - persist_to_workspace:
+          root: .
+          paths:
+            - build/distributions
 
-#      - persist_to_workspace:
-#          root: .
-#          paths:
-#            - build/jpackage
+      - persist_to_workspace:
+          root: .
+          paths:
+            - build/jpackage
 
       - save_cache:
           paths:
