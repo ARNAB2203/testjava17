@@ -110,6 +110,15 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
+            - build/image
+      - persist_to_workspace:
+          root: .
+          paths:
+            - build/distributions
+
+      - persist_to_workspace:
+          root: .
+          paths:
             - build/jpackage
 
       - save_cache:
