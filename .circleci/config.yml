@@ -94,6 +94,15 @@ jobs:
       #      - store_artifacts:
       #          path: /tmp/artifacts
 
+      - run:
+          name: Check if file exists
+          command: |
+            if [ -f /build/jpackage/hellofx_1.9.0-1_amd64.deb ]; then
+              echo "File exists"
+            else
+              echo "File does not exist"
+            fi
+
 #      - store_artifacts:
 #          path: /tmp
 #          destination: .
