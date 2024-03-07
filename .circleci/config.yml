@@ -94,9 +94,9 @@ jobs:
       #      - store_artifacts:
       #          path: /tmp/artifacts
 
-      - store_artifacts:
-          path: /tmp
-          destination: .
+#      - store_artifacts:
+#          path: /tmp
+#          destination: .
 
       - persist_to_workspace:
           root: .
