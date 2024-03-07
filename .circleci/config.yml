@@ -58,6 +58,7 @@ jobs:
       - run: ./gradlew dependencies
       - run: ./gradlew jlink
       - run: ./gradlew jpackage
+      - run: ./gradlew jlinkzip
       - run:
           name: chmod permissions
           command: chmod +x build
