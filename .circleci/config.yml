@@ -82,7 +82,11 @@ jobs:
           command: |
             apt-get update && apt-get install -y pandoc
 
-      - run: ./gradlew convertMarkdownToPdf --status
+      - run:
+          name: Convert MD to PDF
+          command: |
+            commandLine 'pandoc', '/doc/input.md', '-o', '/doc/output.pdf'
+#            ./gradlew convertMarkdownToPdf --status
 #            ./gradlew buildDocs
 
       - run:
