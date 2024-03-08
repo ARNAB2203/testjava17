@@ -85,7 +85,7 @@ jobs:
       - run:
           name: Convert MD to PDF
           command: |
-            pandoc /doc/input.md -o /doc/output.pdf
+            pandoc /doc/user.md -o /doc/output.pdf
 #            ./gradlew convertMarkdownToPdf --status
 #            ./gradlew buildDocs
 
