@@ -55,31 +55,42 @@ jobs:
           name: chmod permissions
           command: chmod +x ./gradlew
 
-      - run: ./gradlew dependencies
-      - run: ./gradlew jlink
-      - run: ./gradlew jpackage
-      - run: ./gradlew jlinkzip
-      - run:
-          name: chmod permissions
-          command: chmod +x build
-      - run:
-          name: Copy linux
-          command: mkdir -p tmp/linux && cp build/jpackage/*.* tmp
-      - run:
-          name: check files
-          command: |
-            ls -al
-            cd build/jpackage
-            ls -al
-            echo '^^^jpackage files in your repo^^^'
-            cd ..
-            ls -al
-            echo '^^^The files in your repo^^^'
+#      - run: ./gradlew dependencies
+#      - run: ./gradlew jlink
+#      - run: ./gradlew jpackage
+#      - run: ./gradlew jlinkzip
+#      - run: ./gradlew convertMarkdownToPdf
+#      - run:
+#          name: chmod permissions
+#          command: chmod +x build
+#      - run:
+#          name: Copy linux
+#          command: mkdir -p tmp/linux && cp build/jpackage/*.* tmp
+#      - run:
+#          name: check files
+#          command: |
+#            ls -al
+#            cd build/jpackage
+#            ls -al
+#            echo '^^^jpackage files in your repo^^^'
+#            cd ..
+#            ls -al
+#            echo '^^^The files in your repo^^^'
 
       - run:
           name: Install Pandoc
           command: |
-            apt-get install pandoc -y
+            apt-get update && apt-get install -y pandoc
+
+      - run:
+          name: Convert MD to PDF
+          command: |
+            ./gradlew convertMarkdownToPdf
+            ./gradlew buildDocs
+
+      - store_artifacts:
+          path: build/*.pdf
+          destination: pdf
 
       #      - run: ./gradlew buildDocs
 
@@ -95,14 +106,14 @@ jobs:
       #      - store_artifacts:
       #          path: /tmp/artifacts
 
-      - run:
-          name: Check if file exists
-          command: |
-            if [ -f /build/jpackage/hellofx_1.9.0-1_amd64.deb ]; then
-              echo "File exists"
-            else
-              echo "File does not exist"
-            fi
+#      - run:
+#          name: Check if file exists
+#          command: |
+#            if [ -f /build/jpackage/hellofx_1.9.0-1_amd64.deb ]; then
+#              echo "File exists"
+#            else
+#              echo "File does not exist"
+#            fi
 
 #      - store_artifacts:
 #          path: /tmp

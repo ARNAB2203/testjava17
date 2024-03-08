@@ -26,36 +26,42 @@ tasks.register('buildDocs', Exec) {
             '-f', 'markdown-implicit_figures', '-o', 'user_guide.pdf', 'user.md', 'version_history.md'
 }
 
-jlink {
-    imageZip = project.file("${buildDir}/distributions/app-${javafx.platform.classifier}.zip")
-    options = ['--strip-java-debug-attributes', '--compress', '2', '--no-header-files', '--no-man-pages']
-    launcher {
-        name = 'hellofx'
-    }
+tasks.register('convertMarkdownToPdf', Exec) {
+    description = 'Convert Markdown to PDF'
+    workingDir "$rootProject.layout.buildDirectory/doc"
+    commandLine 'pandoc', 'input.md', '-o', 'output.pdf'
+}
 
-    jpackage {
-        if (org.gradle.internal.os.OperatingSystem.current().isWindows()) {
-            installerType = 'exe'
-            installerOptions = [
-                    '--vendor', 'Mopria',
-                    '--app-version', "1.9.0",
-                    '--win-dir-chooser',
-                    '--win-shortcut',
-                    '--win-per-user-install',
-                    '--win-menu',
-                    '--win-menu-group', "Mopria"
-            ]
+    jlink {
+        imageZip = project.file("${buildDir}/distributions/app-${javafx.platform.classifier}.zip")
+        options = ['--strip-java-debug-attributes', '--compress', '2', '--no-header-files', '--no-man-pages']
+        launcher {
+            name = 'hellofx'
         }
 
-        if (org.gradle.internal.os.OperatingSystem.current().isLinux()) {
-            installerType = 'deb'
-            installerOptions = [
-                    '--vendor', 'Mopria',
-                    '--app-version', "1.9.0"
-            ]
+        jpackage {
+            if (org.gradle.internal.os.OperatingSystem.current().isWindows()) {
+                installerType = 'exe'
+                installerOptions = [
+                        '--vendor', 'Mopria',
+                        '--app-version', "1.9.0",
+                        '--win-dir-chooser',
+                        '--win-shortcut',
+                        '--win-per-user-install',
+                        '--win-menu',
+                        '--win-menu-group', "Mopria"
+                ]
+            }
+
+            if (org.gradle.internal.os.OperatingSystem.current().isLinux()) {
+                installerType = 'deb'
+                installerOptions = [
+                        '--vendor', 'Mopria',
+                        '--app-version', "1.9.0"
+                ]
+            }
         }
     }
-}
-jlinkZip {
-    group = 'distribution'
-}
+    jlinkZip {
+        group = 'distribution'
+    }
