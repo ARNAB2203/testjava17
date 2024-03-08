@@ -86,7 +86,7 @@ jobs:
           name: Convert MD to PDF
           command: |
             ./gradlew convertMarkdownToPdf
-            ./gradlew buildDocs
+#            ./gradlew buildDocs
 
       - store_artifacts:
           path: build/*.pdf
