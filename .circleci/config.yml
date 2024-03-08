@@ -88,8 +88,16 @@ jobs:
             ./gradlew convertMarkdownToPdf --status
 #            ./gradlew buildDocs
 
+      - run:
+          name: check files
+          command: |
+            ls -al
+            cd build
+            ls -al
+            echo '^^^build files in your repo^^^'
+
       - store_artifacts:
-          path: build/*.pdf
+          path: build/output.pdf
           destination: pdf
 
       #      - run: ./gradlew buildDocs
