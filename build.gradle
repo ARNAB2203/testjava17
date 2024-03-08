@@ -54,8 +54,16 @@ tasks.register('convertMarkdownToPdf', Exec) {
                 ]
             }
 
-            if (org.gradle.internal.os.OperatingSystem.current().isLinux()) {
-                installerType = 'deb'
+//            if (org.gradle.internal.os.OperatingSystem.current().isLinux()) {
+//                installerType = 'deb'
+//                installerOptions = [
+//                        '--vendor', 'Mopria',
+//                        '--app-version', "1.9.0"
+//                ]
+//            }
+
+            if (org.gradle.internal.os.OperatingSystem.current().isMacOsX()) {
+                installerType = 'dmg'
                 installerOptions = [
                         '--vendor', 'Mopria',
                         '--app-version', "1.9.0"

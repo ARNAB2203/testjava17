@@ -3,7 +3,7 @@ version: 2.1
 executors:
   windows-executor:
     docker:
-      - image: azul/zulu-openjdk:17.0.0-17.28.13-jre
+      - image: azul/zulu-openjdk:17.0.9
   macos-executor:
     macos:
       xcode: "12.5.1"
@@ -34,6 +34,12 @@ jobs:
           name: Create installer for Windows
           command: |
             echo "Hi from window...."
+            ./gradlew dependencies
+            ./gradlew jlink
+            ./gradlew jpackage
+            ./gradlew jlinkzip
+            ./gradlew convertMarkdownToPdf
+            ./gradlew buildDocs
 #            jpackage --input build/libs --main-jar myApp.jar --name MyApp --main-class com.example.Main --type exe --win-dir-chooser --win-shortcut
 
   build_macos:
@@ -62,6 +68,12 @@ jobs:
           name: Create installer for macOS
           command: |
             echo "Hi from Mac...."
+            ./gradlew dependencies
+            ./gradlew jlink
+            ./gradlew jpackage
+            ./gradlew jlinkzip
+            ./gradlew convertMarkdownToPdf
+            ./gradlew buildDocs
 #            jpackage --input build/libs --main-jar myApp.jar --name MyApp --main-class com.example.Main --type pkg --mac-bundle-name MyApp
 
 workflows:
