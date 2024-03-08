@@ -28,8 +28,9 @@ tasks.register('buildDocs', Exec) {
 
 tasks.register('convertMarkdownToPdf', Exec) {
     description = 'Convert Markdown to PDF'
+    println("Path >>> $rootProject.layout.buildDirectory")
     workingDir "$rootProject.layout.buildDirectory/doc"
-    commandLine 'pandoc', 'input.md', '-o', 'output.pdf'
+    commandLine 'pandoc', 'input.md', '-o', '/doc/output.pdf'
 }
 
     jlink {
