@@ -92,12 +92,12 @@ jobs:
           name: check files
           command: |
             ls -al
-            cd build
+            cd doc
             ls -al
             echo '^^^build files in your repo^^^'
 
       - store_artifacts:
-          path: build/output.pdf
+          path: doc/output.pdf
           destination: pdf
 
       #      - run: ./gradlew buildDocs
