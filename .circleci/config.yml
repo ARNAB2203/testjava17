@@ -3,7 +3,7 @@ version: 2.1
 executors:
   windows-executor:
     docker:
-      - image: circleci/openjdk:17-jdk-windowsservercore-1809
+      - image: azul/zulu-openjdk:17.0.0-17.28.13-jre
   macos-executor:
     macos:
       xcode: "12.5.1"
