@@ -1,159 +1,72 @@
-# Use the latest 2.1 version of CircleCI pipeline process engine.
-# See: https://circleci.com/docs/configuration-reference
 version: 2.1
 
-# Define a job to be invoked later in a workflow.
-# See: https://circleci.com/docs/jobs-steps/#jobs-overview & https://circleci.com/docs/configuration-reference/#jobs
-jobs:
-  build-linux:
-    # Specify the execution environment. You can specify an image from Docker Hub or use one of our convenience images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/executor-intro/ & https://circleci.com/docs/configuration-reference/#executor-job
+executors:
+  windows-executor:
     docker:
-      # Specify the version you desire here
-      # See: https://circleci.com/developer/images/image/cimg/openjdk
-      #      - image: cimg/base:2022.06
-      #      - image: ubuntu-2204:2024.01.1
-      - image: azul/zulu-openjdk:17.0.9
+      - image: circleci/openjdk:17-jdk-windowsservercore-1809
+  macos-executor:
+    macos:
+      xcode: "12.5.1"
 
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/circleci-images/
-      # - image: circleci/postgres:9.4
+jobs:
+  build_windows:
+    executor: windows-executor
+    working_directory: ~/repo
 
-    environment:
-      # Customize the JVM maximum heap limit
-      JVM_OPTS: -Xmx3200m
-      TERM: dumb
-
-    # Add steps to the job
-    # See: https://circleci.com/docs/jobs-steps/#steps-overview & https://circleci.com/docs/configuration-reference/#steps
     steps:
-      # Checkout the code as the first step.
       - checkout
 
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "build.gradle" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
       - run:
-          name: Print Java Version
-          command: 'java -version'
-
-      - run:
-          name: Print Jlink Version
-          command: 'jpackage --version'
-
-      - run:
-          name: installation
+          name: Install dependencies
           command: |
-            apt-get update
-            apt-get install fakeroot -y
+            # Install any necessary Windows dependencies
+            choco install -y jdk8
+      - run:
+          name: chmod permissions
+          command: chmod +x ./gradlew
+
+      - run:
+          name: Build JavaFX application for Windows
+          command: |
+            ./gradlew clean assemble
+
+      - run:
+          name: Create installer for Windows
+          command: |
+            echo "Hi from window...."
+#            jpackage --input build/libs --main-jar myApp.jar --name MyApp --main-class com.example.Main --type exe --win-dir-chooser --win-shortcut
+
+  build_macos:
+    executor: macos-executor
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - run:
+          name: Install dependencies
+          command: |
+            # Install any necessary macOS dependencies
+            # Example: brew install some-package
 
       - run:
           name: chmod permissions
           command: chmod +x ./gradlew
 
-#      - run: ./gradlew dependencies
-#      - run: ./gradlew jlink
-#      - run: ./gradlew jpackage
-#      - run: ./gradlew jlinkzip
-#      - run: ./gradlew convertMarkdownToPdf
-#      - run:
-#          name: chmod permissions
-#          command: chmod +x build
-#      - run:
-#          name: Copy linux
-#          command: mkdir -p tmp/linux && cp build/jpackage/*.* tmp
-#      - run:
-#          name: check files
-#          command: |
-#            ls -al
-#            cd build/jpackage
-#            ls -al
-#            echo '^^^jpackage files in your repo^^^'
-#            cd ..
-#            ls -al
-#            echo '^^^The files in your repo^^^'
+      - run:
+          name: Build JavaFX application for macOS
+          command: |
+            ./gradlew clean assemble
 
       - run:
-          name: Install Pandoc
+          name: Create installer for macOS
           command: |
-            apt-get update && apt-get install -y pandoc
+            echo "Hi from Mac...."
+#            jpackage --input build/libs --main-jar myApp.jar --name MyApp --main-class com.example.Main --type pkg --mac-bundle-name MyApp
 
-      - run:
-          name: Convert MD to PDF
-          command: |
-            pandoc /doc/user.md -o /doc/output.pdf
-#            ./gradlew convertMarkdownToPdf --status
-#            ./gradlew buildDocs
-
-      - run:
-          name: check files
-          command: |
-            ls -al
-            cd doc
-            ls -al
-            echo '^^^build files in your repo^^^'
-
-      - store_artifacts:
-          path: doc/output.pdf
-          destination: pdf
-
-      #      - run: ./gradlew buildDocs
-
-      #      - run:
-      #          name: Creating Dummy Artifacts
-      #          command: |
-      #            echo "my artifact file" > /tmp/art-1;
-      #            mkdir /tmp/artifacts;
-      #            echo "my artifact files in a dir" > /tmp/artifacts/art-2;
-      #      - store_artifacts:
-      #          path: /tmp/art-1
-      #          destination: artifact-file
-      #      - store_artifacts:
-      #          path: /tmp/artifacts
-
-#      - run:
-#          name: Check if file exists
-#          command: |
-#            if [ -f /build/jpackage/hellofx_1.9.0-1_amd64.deb ]; then
-#              echo "File exists"
-#            else
-#              echo "File does not exist"
-#            fi
-
-#      - store_artifacts:
-#          path: /tmp
-#          destination: .
-
-      - persist_to_workspace:
-          root: .
-          paths:
-            - build/image
-      - persist_to_workspace:
-          root: .
-          paths:
-            - build/distributions
-
-      - persist_to_workspace:
-          root: .
-          paths:
-            - build/jpackage
-
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: v1-dependencies-{{ checksum "build.gradle" }}
-
-      # run tests!
-      - run: ./gradlew test
-
-# Orchestrate jobs using workflows
-# See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
 workflows:
-  sample: # This is the name of the workflow, feel free to change it to better match your workflow.
-    # Inside the workflow, you define the jobs you want to run.
+  version: 2
+  build:
     jobs:
-      - build-linux
+      - build_windows
+      - build_macos
