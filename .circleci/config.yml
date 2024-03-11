@@ -65,7 +65,7 @@ jobs:
             ./gradlew clean assemble
 
       - run:
-          name: Create installer for macOS
+          name: Create installer for mac
           command: |
             echo "Hi from Mac...."
             ./gradlew dependencies
