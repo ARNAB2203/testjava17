@@ -69,9 +69,7 @@ jobs:
           command: |
             echo "Hi from Mac...."
             ./gradlew dependencies
-#            ./gradlew jlink
             ./gradlew jpackage
-#            ./gradlew jlinkzip
             ./gradlew convertMarkdownToPdf
             ./gradlew buildDocs
 #            jpackage --input build/libs --main-jar myApp.jar --name MyApp --main-class com.example.Main --type pkg --mac-bundle-name MyApp
