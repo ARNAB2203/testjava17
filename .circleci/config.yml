@@ -52,6 +52,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
+            java -version
             # Install any necessary macOS dependencies
             # Example: brew install some-package
 
