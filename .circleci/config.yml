@@ -16,30 +16,30 @@ jobs:
     steps:
       - checkout
 
-      - run:
-          name: Install dependencies
-          command: |
-            # Install any necessary Windows dependencies
-            choco install -y jdk8
+#      - run:
+#          name: Install dependencies
+#          command: |
+#            # Install any necessary Windows dependencies
+#            choco install -y jdk8
       - run:
           name: chmod permissions
           command: chmod +x ./gradlew
 
-      - run:
-          name: Build JavaFX application for Windows
-          command: |
-            ./gradlew clean assemble
+#      - run:
+#          name: Build JavaFX application for Windows
+#          command: |
+#            ./gradlew clean assemble
 
-      - run:
-          name: Create installer for Windows
-          command: |
-            echo "Hi from window...."
-            ./gradlew dependencies
-            ./gradlew jlink
-            ./gradlew jpackage
-            ./gradlew jlinkzip
-            ./gradlew convertMarkdownToPdf
-            ./gradlew buildDocs
+#      - run:
+#          name: Create installer for Windows
+#          command: |
+#            echo "Hi from window...."
+#            ./gradlew dependencies
+#            ./gradlew jlink
+#            ./gradlew jpackage
+#            ./gradlew jlinkzip
+#            ./gradlew convertMarkdownToPdf
+#            ./gradlew buildDocs
 #            jpackage --input build/libs --main-jar myApp.jar --name MyApp --main-class com.example.Main --type exe --win-dir-chooser --win-shortcut
 
   build_macos:
@@ -69,9 +69,9 @@ jobs:
           command: |
             echo "Hi from Mac...."
             ./gradlew dependencies
-            ./gradlew jlink
+#            ./gradlew jlink
             ./gradlew jpackage
-            ./gradlew jlinkzip
+#            ./gradlew jlinkzip
             ./gradlew convertMarkdownToPdf
             ./gradlew buildDocs
 #            jpackage --input build/libs --main-jar myApp.jar --name MyApp --main-class com.example.Main --type pkg --mac-bundle-name MyApp
@@ -80,5 +80,5 @@ workflows:
   version: 2
   build:
     jobs:
-      - build_windows
+#      - build_windows
       - build_macos
