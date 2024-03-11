@@ -35,7 +35,7 @@ tasks.register('convertMarkdownToPdf', Exec) {
 
     jlink {
         imageZip = project.file("${buildDir}/distributions/app-${javafx.platform.classifier}.zip")
-        options = ['--strip-java-debug-attributes', '--compress', '2', '--no-header-files', '--no-man-pages']
+        options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
         launcher {
             name = 'hellofx'
         }
