@@ -3,7 +3,7 @@ version: 2.1
 executors:
   windows-executor:
     docker:
-      - image: azul/zulu-openjdk:17.0.9
+      - image: azul/zulu-openjdk:17.0.9-windows
   macos-executor:
     macos:
       xcode: "12.5.1"
