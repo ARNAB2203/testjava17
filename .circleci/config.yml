@@ -99,7 +99,7 @@ jobs:
           name: Texlive version
           command: 'tex --version'
 
-      - run: ./gradlew buildDocs
+      - run: ./gradlew buildDocs --stacktrace
 
 
       #      - run: ./gradlew buildDocs
