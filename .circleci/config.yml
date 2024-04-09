@@ -74,14 +74,14 @@ jobs:
 #            ls -al
 #            echo '^^^The files in your repo^^^'
 
-      - run:
-          name: Install Pandoc
-          command: |
-            apt-get install pandoc -y
-
-      - run:
-          name: Pandoc version
-          command: 'pandoc --version'
+#      - run:
+#          name: Install Pandoc
+#          command: |
+#            apt-get install pandoc -y
+#
+#      - run:
+#          name: Pandoc version
+#          command: 'pandoc --version'
 
       - run:
           name: Texlive Install
@@ -94,6 +94,7 @@ jobs:
             apt install software-properties-common -y
             apt-get update
             apt install -y graphviz pandoc texlive-latex-recommended texlive-fonts-recommended python3-pip gettext-base
+            echo "Pandoc version : " > 'pandoc --version';
 
       - run:
           name: Texlive version
