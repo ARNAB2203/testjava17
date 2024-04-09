@@ -93,8 +93,10 @@ jobs:
             apt-get install ppa-purge
             apt-get update
             apt install software-properties-common -y
+#            apt-get update
+#            apt install texlive-latex-recommended -y
             apt-get update
-            apt install texlive-full -y
+            apt install -y graphviz pandoc texlive-latex-recommended texlive-fonts-recommended python3-pip gettext-base
 
       - run:
           name: Texlive version
