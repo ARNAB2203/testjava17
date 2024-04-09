@@ -51,9 +51,9 @@ jobs:
             apt-get update
             apt-get install fakeroot -y
 
-      - run:
-          name: chmod permissions
-          command: chmod +x ./gradlew
+#      - run:
+#          name: chmod permissions
+#          command: chmod +x ./gradlew
 
 #      - run: ./gradlew jlink
 #      - run: ./gradlew jpackage
