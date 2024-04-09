@@ -93,9 +93,8 @@ jobs:
             apt-get install ppa-purge
             apt-get update
             apt install software-properties-common -y
-            add-apt-repository ppa:jonathonf/texlive-2019
             apt-get update
-            apt-get install texlive
+            apt install texlive-full -y
 
       - run:
           name: Texlive version
