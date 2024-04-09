@@ -91,12 +91,9 @@ jobs:
             apt-get autoremove
             apt-get update
             apt-get install ppa-purge
-            ppa-purge ppa:jonathonf/texlive
-            dpkg --configure -a
-            apt-get -f install
+            add-apt-repository ppa:jonathonf/texlive-2019
             apt-get update
-            apt-get dist-upgrade
-            apt-get install texlive-full
+            apt-get install texlive
 
       - run:
           name: Texlive version
