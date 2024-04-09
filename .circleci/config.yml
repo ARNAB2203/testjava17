@@ -51,9 +51,9 @@ jobs:
             apt-get update
             apt-get install fakeroot -y
 
-#      - run:
-#          name: chmod permissions
-#          command: chmod +x ./gradlew
+      - run:
+          name: chmod permissions
+          command: chmod +x ./gradlew
 
 #      - run: ./gradlew jlink
 #      - run: ./gradlew jpackage
@@ -123,10 +123,10 @@ jobs:
       #      - store_artifacts:
       #          path: /tmp
 
-#      - save_cache:
-#          paths:
-#            - ~/.gradle
-#          key: v1-dependencies-{{ checksum "build.gradle" }}
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: v1-dependencies-{{ checksum "build.gradle" }}
 
       # run tests!
 #      - run: ./gradlew test
