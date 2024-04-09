@@ -81,8 +81,8 @@ jobs:
             apt-get install pandoc -y
 
       - run:
-          name: Install Pandoc
-          command: 'pandoc -version'
+          name: Pandoc version
+          command: 'pandoc --version'
 
       #      - run: ./gradlew buildDocs
 
