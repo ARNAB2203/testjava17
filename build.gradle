@@ -23,7 +23,7 @@ tasks.register('buildDocs', Exec) {
     workingDir "$rootProject.layout.buildDirectory/doc"
     commandLine 'pandoc', '--toc', '-V', "title=Mopria Certification Tool User Guide", '-V', 'geometry:margin=1in',
             '-V', 'colorlinks', '-V', 'urlcolor=blue', '-V', 'geometry:a4paper',
-            '-f', 'markdown-implicit_figures', '-o', 'user_guide.pdf', 'user.md', 'version_history.md'
+            '-f', 'markdown-implicit_figures', '-o', 'input.pdf', 'input.md'
 }
 
 tasks.register('convertMarkdownToPdf', Exec) {
