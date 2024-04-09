@@ -45,17 +45,16 @@ jobs:
 #          name: Print Jlink Version
 #          command: 'jpackage --version'
 
-#      - run:
-#          name: installation
-#          command: |
-#            apt-get update
-#            apt-get install fakeroot -y
+      - run:
+          name: installation
+          command: |
+            apt-get update
+            apt-get install fakeroot -y
 
-#      - run:
-#          name: chmod permissions
-#          command: chmod +x ./gradlew
+      - run:
+          name: chmod permissions
+          command: chmod +x ./gradlew
 
-#      - run: ./gradlew dependencies
 #      - run: ./gradlew jlink
 #      - run: ./gradlew jpackage
 #      - run:
@@ -78,7 +77,7 @@ jobs:
       - run:
           name: Install Pandoc
           command: |
-            sudo apt-get install pandoc -y
+            apt-get install pandoc -y
 
       - run:
           name: Pandoc version
@@ -100,6 +99,8 @@ jobs:
           name: Texlive version
           command: 'tex --version'
 
+      - run: ./gradlew buildDocs
+
 
       #      - run: ./gradlew buildDocs
 
@@ -115,9 +116,9 @@ jobs:
       #      - store_artifacts:
       #          path: /tmp/artifacts
 
-#      - store_artifacts:
-#          path: /tmp
-#          destination: .
+      - store_artifacts:
+          path: /tmp
+          destination: .
 
       #      - store_artifacts:
       #          path: /tmp
