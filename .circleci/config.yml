@@ -94,7 +94,7 @@ jobs:
             apt install software-properties-common -y
             apt-get update
             apt install -y graphviz pandoc texlive-latex-recommended texlive-fonts-recommended python3-pip gettext-base
-            echo "Pandoc version : " > 'pandoc --version';
+            'pandoc --version'
 
       - run:
           name: Texlive version
