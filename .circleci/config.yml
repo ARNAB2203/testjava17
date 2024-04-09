@@ -87,16 +87,16 @@ jobs:
       - run:
           name: Texlive Install
           command: |
-            sudo apt-get autoclean 
-            sudo apt-get autoremove
-            sudo apt-get update
-            sudo apt-get install ppa-purge
-            sudo ppa-purge ppa:jonathonf/texlive
-            sudo dpkg --configure -a
-            sudo apt-get -f install
-            sudo apt-get update
-            sudo apt-get dist-upgrade
-            sudo apt-get install texlive-full
+            apt-get autoclean 
+            apt-get autoremove
+            apt-get update
+            apt-get install ppa-purge
+            ppa-purge ppa:jonathonf/texlive
+            dpkg --configure -a
+            apt-get -f install
+            apt-get update
+            apt-get dist-upgrade
+            apt-get install texlive-full
 
       - run:
           name: Texlive version
