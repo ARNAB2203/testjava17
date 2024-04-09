@@ -45,11 +45,11 @@ jobs:
 #          name: Print Jlink Version
 #          command: 'jpackage --version'
 
-      - run:
-          name: installation
-          command: |
-            apt-get update
-            apt-get install fakeroot -y
+#      - run:
+#          name: installation
+#          command: |
+#            apt-get update
+#            apt-get install fakeroot -y
 
 #      - run:
 #          name: chmod permissions
