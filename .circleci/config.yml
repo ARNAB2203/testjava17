@@ -6,7 +6,7 @@ executors:
   win-server2022:
     machine:
       image: windows-server-2022-gui:current
-    resource_class: windows.xlarge
+    resource_class: windows.medium
     shell: powershell.exe -ExecutionPolicy Bypass
 
 #orbs:
