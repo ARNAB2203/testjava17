@@ -115,7 +115,12 @@ jobs:
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
 workflows:
-  sample: # This is the name of the workflow, feel free to change it to better match your workflow.
-    # Inside the workflow, you define the jobs you want to run.
+  version: 2
+  build:
+    when:
+      and:
+        - equal: [ master, << pipeline.git.branch >> ]
+        - equal: [ release, << pipeline.git.branch >> ]
+        - equal: [ test, << pipeline.git.branch >> ]
     jobs:
       - build-windows
