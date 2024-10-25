@@ -16,17 +16,18 @@ jobs:
     machine:
       image: 'windows-server-2022-gui:current'
       shell: 'powershell.exe -ExecutionPolicy Bypass'
+    executor: win-server2022
     steps:
       # Commands are run in a Windows virtual machine environment
       - checkout
       - run: Write-Host 'Hello, Windows'
 
       # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "build.gradle" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
+#      - restore_cache:
+#          keys:
+#            - v1-dependencies-{{ checksum "build.gradle" }}
+#            # fallback to using the latest cache if no exact match is found
+#            - v1-dependencies-
       - run:
           name: Print Java Version
           command: 'java -version'
@@ -36,44 +37,44 @@ jobs:
           command: |
             dotnet tool install --global wix
 
-      - run:
-          name: Print Jlink Version
-          command: 'jpackage --version'
-
-      #      - run:
-      #          name: installation
-      #          command: |
-      #            apt-get update
-      #            apt-get install fakeroot -y
-
-      - run:
-          name: chmod permissions
-          command: chmod +x ./gradlew
-
-      - run: ./gradlew dependencies
-      - run: ./gradlew jlink
-      - run: ./gradlew jpackage
-      - run:
-          name: chmod permissions
-          command: chmod +x build
-      - run:
-          name: Copy linux
-          command: mkdir -p tmp/linux && cp build/jpackage/*.* tmp
-      - run:
-          name: check files
-          command: |
-            ls -al
-            cd build/jpackage
-            ls -al
-            echo '^^^jpackage files in your repo^^^'
-            cd ..
-            ls -al
-            echo '^^^The files in your repo^^^'
-
-      - run:
-          name: Install Pandoc
-          command: |
-            apt-get install pandoc -y
+#      - run:
+#          name: Print Jlink Version
+#          command: 'jpackage --version'
+#
+#      #      - run:
+#      #          name: installation
+#      #          command: |
+#      #            apt-get update
+#      #            apt-get install fakeroot -y
+#
+#      - run:
+#          name: chmod permissions
+#          command: chmod +x ./gradlew
+#
+#      - run: ./gradlew dependencies
+#      - run: ./gradlew jlink
+#      - run: ./gradlew jpackage
+#      - run:
+#          name: chmod permissions
+#          command: chmod +x build
+#      - run:
+#          name: Copy linux
+#          command: mkdir -p tmp/linux && cp build/jpackage/*.* tmp
+#      - run:
+#          name: check files
+#          command: |
+#            ls -al
+#            cd build/jpackage
+#            ls -al
+#            echo '^^^jpackage files in your repo^^^'
+#            cd ..
+#            ls -al
+#            echo '^^^The files in your repo^^^'
+#
+#      - run:
+#          name: Install Pandoc
+#          command: |
+#            apt-get install pandoc -y
 
       #      - run: ./gradlew buildDocs
 
@@ -89,20 +90,20 @@ jobs:
       #      - store_artifacts:
       #          path: /tmp/artifacts
 
-      - store_artifacts:
-          path: /tmp
-          destination: .
+#      - store_artifacts:
+#          path: /tmp
+#          destination: .
 
       #      - store_artifacts:
       #          path: /tmp
 
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: v1-dependencies-{{ checksum "build.gradle" }}
+#      - save_cache:
+#          paths:
+#            - ~/.gradle
+#          key: v1-dependencies-{{ checksum "build.gradle" }}
 
       # run tests!
-      - run: ./gradlew test
+#      - run: ./gradlew test
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
@@ -110,4 +111,8 @@ workflows:
   sample: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
-      - build-windows
+      - build-windows:
+          filters:
+            branches:
+              only:
+                - master
