@@ -5,7 +5,7 @@ version: 2.1
 executors:
   win-server2022:
     machine:
-      image: windows-server-2022-gui:2022.08.1
+      image: windows-server-2022-gui:current
     resource_class: windows.xlarge
     shell: powershell.exe -ExecutionPolicy Bypass
 
