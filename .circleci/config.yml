@@ -2,8 +2,15 @@
 # See: https://circleci.com/docs/configuration-reference
 version: 2.1
 
-orbs:
-  win: circleci/windows@5.0
+executors:
+  win-server2022:
+    machine:
+      image: windows-server-2022-gui:2022.08.1
+    resource_class: windows.xlarge
+    shell: powershell.exe -ExecutionPolicy Bypass
+
+#orbs:
+#  win: circleci/windows@5.0
 #  wixtoolset: sensu/wixtoolset@1.0.0
 
 # Define a job to be invoked later in a workflow.
@@ -12,10 +19,10 @@ jobs:
   build-windows:
     # Specify the execution environment. You can specify an image from Docker Hub or use one of our convenience images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/executor-intro/ & https://circleci.com/docs/configuration-reference/#executor-job
-    resource_class: 'windows.medium'
-    machine:
-      image: 'windows-server-2022-gui:current'
-      shell: 'powershell.exe -ExecutionPolicy Bypass'
+#    resource_class: 'windows.medium'
+#    machine:
+#      image: 'windows-server-2022-gui:current'
+#      shell: 'powershell.exe -ExecutionPolicy Bypass'
     executor: win-server2022
     steps:
       # Commands are run in a Windows virtual machine environment
