@@ -110,8 +110,6 @@ jobs:
 #          key: v1-dependencies-{{ checksum "build.gradle" }}
       # run tests!
 #      - run: ./gradlew test
-
-
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
 workflows:
