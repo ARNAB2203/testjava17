@@ -106,4 +106,10 @@ workflows:
   version: 2
   sample:
     jobs:
-      - build-windows
+      - build-windows:
+          filters:
+            branches:
+              ignore: /.*/  # Ignore all branches
+            pull_requests:
+              only:
+                - /.*/  # Run only on pull requests
