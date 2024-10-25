@@ -101,8 +101,8 @@ jobs:
 #          path: /tmp
 #          destination: .
 
-      #      - store_artifacts:
-      #          path: /tmp
+#      - store_artifacts:
+#          path: /tmp
 
 #      - save_cache:
 #          paths:
