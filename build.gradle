@@ -9,7 +9,7 @@ repositories {
 }
 
 javafx {
-    version = "21"
+    version = "17.0.9"
     modules = [ 'javafx.controls' ]
 }
 
@@ -18,26 +18,59 @@ application {
     mainModule = "hellofx"
 }
 
+tasks.register('buildDocs', Exec) {
+    description 'Create a user doc from doc/user.md. Requires pandoc and latex.'
+    workingDir "$rootProject.layout.buildDirectory/doc"
+    commandLine 'pandoc', '--toc', '-V', "title=Mopria Certification Tool User Guide", '-V', 'geometry:margin=1in',
+            '-V', 'colorlinks', '-V', 'urlcolor=blue', '-V', 'geometry:a4paper',
+            '-f', 'markdown-implicit_figures', '-o', 'input.pdf', 'input.md'
+}
 
-jlink {
-    options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
-    launcher {
-        name = 'hellofx'
-    }
+tasks.register('convertMarkdownToPdf', Exec) {
+    description = 'Convert Markdown to PDF'
+    println("Path >>> $rootProject.layout.buildDirectory")
+    workingDir "$rootProject.layout.buildDirectory/doc"
+    commandLine 'pandoc', 'input.md', '-o', 'output.pdf'
+}
 
-    jpackage {
-        if (org.gradle.internal.os.OperatingSystem.current().isWindows()) {
-            installerType = 'exe'
-            installerOptions = [
-                    '--vendor', 'Mopria',
-                    '--app-version', "1.9.0",
-                    '--verbose',
-                    '--win-dir-chooser',
-                    '--win-shortcut',
-                    '--win-per-user-install',
-                    '--win-menu',
-                    '--win-menu-group', "Mopria"
-            ]
+    jlink {
+        imageZip = project.file("${buildDir}/distributions/app-${javafx.platform.classifier}.zip")
+        options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+        launcher {
+            name = 'hellofx'
+        }
+
+        jpackage {
+            if (org.gradle.internal.os.OperatingSystem.current().isWindows()) {
+                installerType = 'exe'
+                installerOptions = [
+                        '--vendor', 'Mopria',
+                        '--app-version', "1.9.0",
+                        '--win-dir-chooser',
+                        '--win-shortcut',
+                        '--win-per-user-install',
+                        '--win-menu',
+                        '--win-menu-group', "Mopria"
+                ]
+            }
+
+//            if (org.gradle.internal.os.OperatingSystem.current().isLinux()) {
+//                installerType = 'deb'
+//                installerOptions = [
+//                        '--vendor', 'Mopria',
+//                        '--app-version', "1.9.0"
+//                ]
+//            }
+
+            if (org.gradle.internal.os.OperatingSystem.current().isMacOsX()) {
+                installerType = 'dmg'
+                installerOptions = [
+                        '--vendor', 'Mopria',
+                        '--app-version', "1.9.0"
+                ]
+            }
         }
     }
-}
+    jlinkZip {
+        group = 'distribution'
+    }
