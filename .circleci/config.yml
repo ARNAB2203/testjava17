@@ -58,9 +58,9 @@ jobs:
 #          name: chmod permissions
 #          command: chmod +x ./gradlew
 #
-#      - run: ./gradlew dependencies
-#      - run: ./gradlew jlink
-#      - run: ./gradlew jpackage
+      - run: ./gradlew dependencies
+      - run: ./gradlew jlink
+      - run: ./gradlew jpackage
 #      - run:
 #          name: chmod permissions
 #          command: chmod +x build
