@@ -105,4 +105,8 @@ workflows:
   version: 2
   sample:
     jobs:
-      - build-windows
+      - build-windows:
+          filters:
+            branches:
+              only:
+                - master
