@@ -46,9 +46,9 @@ jobs:
           name: Texlive version
           command: 'tex --version'
 
-      - run:
-          name: Gradle Version
-          command: './gradlew -v'
+#      - run:
+#          name: Gradle Version
+#          command: './gradlew -v'
 
 #      - run:
 #          name: Build TCL Docs
