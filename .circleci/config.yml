@@ -30,13 +30,13 @@ jobs:
 
       - checkout
 
-      - run:
-          name: Calculate dependency hash
-          command: mkdir build && cat $(find -name "build.gradle" | sort) .circleci/config_1.yml >build/allconfig
+#      - run:
+#          name: Calculate dependency hash
+#          command: mkdir build && cat $(find -name "build.gradle" | sort) .circleci/config_1.yml >build/allconfig
 
-      - restore_cache:
-          keys:
-            - deps-{{ checksum "build.gradle" }}
+#      - restore_cache:
+#          keys:
+#            - deps-{{ checksum "build.gradle" }}
 
       - run:
           name: Pandoc version
@@ -54,10 +54,10 @@ jobs:
 #          name: Build TCL Docs
 #          command: ./gradlew -Dorg.gradle.parallel=true -Dorg.gradle.daemon=true printVersion archive --stacktrace
 
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: deps-{{ checksum "build.gradle" }}
+#      - save_cache:
+#          paths:
+#            - ~/.gradle
+#          key: deps-{{ checksum "build.gradle" }}
 
 #      - store_artifacts:
 #          path: build/doc/tcl
