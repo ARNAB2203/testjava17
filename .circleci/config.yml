@@ -1,112 +1,171 @@
-# Use the latest 2.1 version of CircleCI pipeline process engine.
-# See: https://circleci.com/docs/configuration-reference
 version: 2.1
 
 executors:
-  win-server2022:
+  linux-executor:
+    docker:
+      - image: arnab2203/test_windows_image:1.1  # Pre-built Linux Docker image
+
+  windows-executor:
     machine:
-      image: windows-server-2022-gui:current
-    resource_class: windows.medium
+      image: my-windows-ci-image  # Pre-built Windows Docker image
+    resource_class: windows.xlarge
     shell: powershell.exe -ExecutionPolicy Bypass
 
 jobs:
-  build-windows:
-    executor: win-server2022
-    steps:
-      # Commands are run in a Windows virtual machine environment
-      - checkout
-      - run: Write-Host 'Hello, Windows'
+  tcl_task:
+    executor: linux-executor
+    environment:
+      JVM_OPTS: -Xmx2048m
+      GRADLE_OPTS: -Xmx2048m -Dorg.gradle.daemon=false
+      TERM: dumb
 
-      # Download and cache dependencies
+    steps:
+      - run:
+          name: git version
+          command: 'git --version'
+
+      - run:
+          name: ssh version
+          command: 'ssh -V'
+
+      - checkout
+
+#      - run:
+#          name: Calculate dependency hash
+#          command: mkdir build && cat $(find -name "build.gradle" | sort) .circleci/config_1.yml >build/allconfig
+
 #      - restore_cache:
 #          keys:
-#            - v1-dependencies-{{ checksum "build.gradle" }}
-#            # fallback to using the latest cache if no exact match is found
-#            - v1-dependencies-
-      - run:
-          name: Print Java Version
-          command: 'java -version'
-      - run:
-          name: Build
-          shell: bash.exe
-          command: |
-            dotnet tool install --global wix
+#            - deps-{{ checksum "build.gradle" }}
 
       - run:
-          name: Print Jlink Version
-          command: 'jpackage --version'
+          name: Pandoc version
+          command: 'pandoc --version'
+
+      - run:
+          name: Texlive version
+          command: 'tex --version'
 
 #      - run:
-#          name: installation
-#          command: |
-#            apt-get update
-#            apt-get install fakeroot -y
+#          name: Gradle Version
+#          command: './gradlew -v'
 
 #      - run:
-#          name: chmod permissions
-#          command: chmod +x ./gradlew
-#
-#      - run: ./gradlew dependencies
-#      - run: ./gradlew jlink
-#      - run: ./gradlew jpackage
-#      - run:
-#          name: chmod permissions
-#          command: chmod +x build
-#      - run:
-#          name: Copy linux
-#          command: mkdir -p tmp/linux && cp build/jpackage/*.* tmp
-#      - run:
-#          name: check files
-#          command: |
-#            ls -al
-#            cd build/jpackage
-#            ls -al
-#            echo '^^^jpackage files in your repo^^^'
-#            cd ..
-#            ls -al
-#            echo '^^^The files in your repo^^^'
-#
-#      - run:
-#          name: Install Pandoc
-#          command: |
-#            apt-get install pandoc -y
-
-      #      - run: ./gradlew buildDocs
-
-      #      - run:
-      #          name: Creating Dummy Artifacts
-      #          command: |
-      #            echo "my artifact file" > /tmp/art-1;
-      #            mkdir /tmp/artifacts;
-      #            echo "my artifact files in a dir" > /tmp/artifacts/art-2;
-      #      - store_artifacts:
-      #          path: /tmp/art-1
-      #          destination: artifact-file
-      #      - store_artifacts:
-      #          path: /tmp/artifacts
-
-#      - store_artifacts:
-#          path: /tmp
-#          destination: .
-
-#      - store_artifacts:
-#          path: /tmp
+#          name: Build TCL Docs
+#          command: ./gradlew -Dorg.gradle.parallel=true -Dorg.gradle.daemon=true printVersion archive --stacktrace
 
 #      - save_cache:
 #          paths:
 #            - ~/.gradle
-#          key: v1-dependencies-{{ checksum "build.gradle" }}
-      # run tests!
-#      - run: ./gradlew test
+#          key: deps-{{ checksum "build.gradle" }}
 
-# Orchestrate jobs using workflows
-# See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
+#      - store_artifacts:
+#          path: build/doc/tcl
+#          destination: tcl
+
+#      - persist_to_workspace:
+#          root: build/doc
+#          paths:
+#            - tcl
+
+  build_windows:
+    executor: windows-executor
+    steps:
+      - run:
+          name: Print Java Version
+          command: 'java -version'
+
+      - checkout
+
+      - run:
+          name: Gradle Version
+          command: './gradlew -v'
+
+      - run:
+          name: Build for Windows
+          shell: bash.exe
+          command: ./gradlew printVersion dependencies buildDocs jpackage check generateLicenseReport --stacktrace
+
+      - run:
+          name: Rename Build Files
+          shell: powershell.exe
+          command: |
+            $GIT_TAG = git describe --tags (git rev-list --tags --max-count=1)
+            Write-Host "Git tag: $GIT_TAG"
+            $GIT_DESCRIBE = git describe --tags --abbrev=7 --match "v1.9*" # v1.9 tags only
+            Write-Host "Git describe: $GIT_DESCRIBE"
+            if ($env:CIRCLE_BRANCH -like "*master*" -or $env:CIRCLE_BRANCH -like "*release*") {
+              $BRANCH_NAME = ""
+            }
+            else {
+              $BRANCH_NAME = ".$($env:CIRCLE_BRANCH -replace '/', '-')"
+            }
+            if ($env:CIRCLE_BRANCH -and $env:CIRCLE_SHA1) {
+              $VERSION_STRING = "$GIT_DESCRIBE$BRANCH_NAME"
+              Write-Host "Version string: $VERSION_STRING"
+              mv build/jpackage/*.exe "build/jpackage/mct_installable-$VERSION_STRING.exe"
+            }
+
+      - attach_workspace:
+          at: build/doc/tcl
+
+      - store_artifacts:
+          path: build/doc/tcl
+          destination: .
+
+      - store_artifacts:
+          path: build/jpackage
+          destination: .
+
+      - persist_to_workspace:
+          root: build
+          paths:
+            - 'jpackage/*.exe'
+
+  mct_build:
+    executor: linux-executor
+    steps:
+      - attach_workspace:
+          at: build
+
+      - store_artifacts:
+          path: build/jpackage
+          destination: .
+
+      - store_artifacts:
+          path: build/tcl
+          destination: tcl/.
+
 workflows:
   version: 2
-  sample:
+  build:
     jobs:
-      - build-windows:
+      - tcl_task:
           filters:
             branches:
               only:
                 - master
+                - /^release$/
+                - /.*release.*/
+                - /^test_4/
+                - /^issue/
+                - /.*issue.*/
+
+#      - build_windows:
+#          filters:
+#            branches:
+#              only:
+#                - master
+#                - /^release$/
+#                - /.*release.*/
+#          requires:
+#            - tcl_task
+#      - mct_build:
+#          filters:
+#            branches:
+#              only:
+#                - master
+#                - /^release$/
+#                - /.*release.*/
+#          requires:
+#            - build_windows
