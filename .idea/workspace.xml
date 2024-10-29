@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b1ce7272-67c4-416b-a9b0-dbf8531e1119" name="Changes" comment="Testing branch" />
+    <list default="true" id="b1ce7272-67c4-416b-a9b0-dbf8531e1119" name="Changes" comment="test_4 branch validation">
+      <change afterPath="$PROJECT_DIR$/docker/Dockerfile_tcl_task" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.circleci/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.circleci/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/Dockerfile_linux" beforeDir="false" afterPath="$PROJECT_DIR$/docker/Dockerfile_linux" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/Dockerfile_win" beforeDir="false" afterPath="$PROJECT_DIR$/docker/Dockerfile_win" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -87,6 +93,7 @@
   "keyToString": {
     "ASKED_ADD_EXTERNAL_FILES": "true",
     "Docker.docker/Dockerfile_linux.executor": "Run",
+    "Docker.docker/Dockerfile_tcl_task.executor": "Run",
     "Docker.docker/Dockerfile_win.executor": "Run",
     "Gradle.hellofx [jpackage].executor": "Run",
     "Gradle.hellofx [run].executor": "Run",
@@ -94,12 +101,13 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "Rebasing test__4",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Acer TravelMate/Desktop/Java17Test/Modular_Sample/hellofx/.circleci",
+    "last_opened_file_path": "C:/Users/Acer TravelMate/Desktop/Java17Test/Modular_Sample/hellofx/docker",
     "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Acer TravelMate\Desktop\Java17Test\Modular_Sample\hellofx\docker" />
       <recent name="C:\Users\Acer TravelMate\Desktop\Java17Test\Modular_Sample\hellofx\.circleci" />
     </key>
   </component>
@@ -160,6 +168,14 @@
       </deployment>
       <method v="2" />
     </configuration>
+    <configuration name="docker/Dockerfile_tcl_task" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
+      <deployment type="dockerfile">
+        <settings>
+          <option name="sourceFilePath" value="docker/Dockerfile_tcl_task" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
     <configuration name="docker/Dockerfile_win" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
       <deployment type="dockerfile">
         <settings>
@@ -171,6 +187,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Docker.docker/Dockerfile_win" />
+        <item itemvalue="Docker.docker/Dockerfile_tcl_task" />
         <item itemvalue="Docker.docker/Dockerfile_linux" />
         <item itemvalue="Gradle.hellofx [run]" />
         <item itemvalue="Gradle.hellofx [jpackage]" />
@@ -273,12 +290,29 @@
       <option name="project" value="LOCAL" />
       <updated>1729855871060</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Testing branch">
+      <option name="closed" value="true" />
+      <created>1730226582186</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1730226582186</updated>
+    </task>
+    <task id="LOCAL-00012" summary="test_4 branch validation">
+      <option name="closed" value="true" />
+      <created>1730226759442</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1730226759442</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Testing branch" />
-    <option name="LAST_COMMIT_MESSAGE" value="Testing branch" />
+    <MESSAGE value="test_4 branch validation" />
+    <option name="LAST_COMMIT_MESSAGE" value="test_4 branch validation" />
   </component>
 </project>
