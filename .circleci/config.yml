@@ -140,13 +140,15 @@ workflows:
   version: 2
   build:
     jobs:
-      - tcl_task
-#          filters:
-#            branches:
-#              only:
-#                - master
-#                - /^release$/
-#                - /.*release.*/
+      - tcl_task:
+          filters:
+            branches:
+              only:
+                - master
+                - /^release$/
+                - /.*release.*/
+                - /^issue/
+                - /.*issue.*/
 #      - build_windows:
 #          filters:
 #            branches:
