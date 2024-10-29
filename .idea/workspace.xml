@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b1ce7272-67c4-416b-a9b0-dbf8531e1119" name="Changes" comment="test_4 branch validation">
-      <change afterPath="$PROJECT_DIR$/docker/Dockerfile_tcl_task" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.circleci/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.circleci/config.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker/Dockerfile_linux" beforeDir="false" afterPath="$PROJECT_DIR$/docker/Dockerfile_linux" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker/Dockerfile_win" beforeDir="false" afterPath="$PROJECT_DIR$/docker/Dockerfile_win" afterDir="false" />
-    </list>
+    <list default="true" id="b1ce7272-67c4-416b-a9b0-dbf8531e1119" name="Changes" comment="test_4 branch validation" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -72,7 +66,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="test_2" />
+        <entry key="$PROJECT_DIR$" value="release" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -99,7 +93,7 @@
     "Gradle.hellofx [run].executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Rebasing test__4",
+    "git-widget-placeholder": "Rebasing master",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/Acer TravelMate/Desktop/Java17Test/Modular_Sample/hellofx/docker",
     "settings.editor.selected.configurable": "preferences.pluginManager"
@@ -157,7 +151,9 @@
       <method v="2" />
     </configuration>
     <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
-      <deployment type="dockerfile" />
+      <deployment type="dockerfile">
+        <settings />
+      </deployment>
       <method v="2" />
     </configuration>
     <configuration name="docker/Dockerfile_linux" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
@@ -186,11 +182,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.hellofx [run]" />
+        <item itemvalue="Gradle.hellofx [jpackage]" />
         <item itemvalue="Docker.docker/Dockerfile_win" />
         <item itemvalue="Docker.docker/Dockerfile_tcl_task" />
         <item itemvalue="Docker.docker/Dockerfile_linux" />
-        <item itemvalue="Gradle.hellofx [run]" />
-        <item itemvalue="Gradle.hellofx [jpackage]" />
       </list>
     </recent_temporary>
   </component>
