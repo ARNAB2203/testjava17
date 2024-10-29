@@ -147,6 +147,8 @@ workflows:
                 - master
                 - /^release$/
                 - /.*release.*/
+                - /^issue/
+                - /.*issue.*/
 
 #      - build_windows:
 #          filters:
