@@ -1,16 +1,19 @@
 version: 2.1
 
+orbs:
+  win: circleci/windows@5.0
+
 executors:
   linux-executor:
     docker:
       - image: arnab2203/test_windows_image:1.1  # Pre-built Linux Docker image
 
-  windows-executor:
-    working_directory: ~/project
-    resource_class: large
-    docker:
-      - image: mopriadevteam/win_exec:2.1
-    shell: powershell.exe -ExecutionPolicy Bypass
+#  windows-executor:
+#    working_directory: ~/project
+#    resource_class: large
+#    docker:
+#      - image: mopriadevteam/win_exec:2.1
+#    shell: powershell.exe -ExecutionPolicy Bypass
 
 jobs:
   tcl_task:
@@ -62,7 +65,8 @@ jobs:
 #            - tcl
 
   build_windows:
-    executor: windows-executor
+    executor:
+      name: win/default
     steps:
       - run:
           name: Print Java Version
