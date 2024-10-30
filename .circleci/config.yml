@@ -134,10 +134,8 @@ workflows:
   version: 2
   build:
     jobs:
-      - trigger_builds
-      - tcl_task:
-          requires:
-            - trigger_builds
+#      - trigger_builds
+      - tcl_task
       - build_windows:
           requires:
             - tcl_task
