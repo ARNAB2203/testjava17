@@ -118,34 +118,40 @@ jobs:
           name: Trigger Builds for Master and Release Branches
           command: |
             #!/bin/bash
-#            PROJECT_SLUG="gh/${CIRCLE_USERNAME}/${CIRCLE_PROJECT_REPONAME}"  # Replace with your actual project slug
-#            CIRCLECI_TOKEN="CCIPAT_tqPtuMCTXpVwbNFqdYTjp_a35d0d61e2935cbeacb45497ec0c05922a3d54d3"
-#
-#            BRANCHES=("master" "release")
-#
-#            for BRANCH in "${BRANCHES[@]}"; do
-#              curl -X POST "https://circleci.com/api/v2/project/$PROJECT_SLUG/pipeline" \
-#              -H "Circle-Token: $CIRCLECI_TOKEN" \
-#              -H "Content-Type: application/json" \
-#              -d "{\"branch\": \"$BRANCH\"}"
-#            done
+            PROJECT_SLUG="gh/${CIRCLE_USERNAME}/${CIRCLE_PROJECT_REPONAME}"  # Replace with your actual project slug
+            CIRCLECI_TOKEN="CCIPAT_tqPtuMCTXpVwbNFqdYTjp_a35d0d61e2935cbeacb45497ec0c05922a3d54d3"
+
+            BRANCHES=("master" "release")
+
+            for BRANCH in "${BRANCHES[@]}"; do
+              curl -X POST "https://circleci.com/api/v2/project/$PROJECT_SLUG/pipeline" \
+              -H "Circle-Token: $CIRCLECI_TOKEN" \
+              -H "Content-Type: application/json" \
+              -d "{\"branch\": \"$BRANCH\"}"
+            done
 
 workflows:
   version: 2
   build:
     jobs:
 #      - trigger_builds
-      - tcl_task
+      - tcl_task:
+          filters:
+            branches:
+              only:
+                - master
+                - /^release$/
+                - /.*release.*/
       - build_windows:
+          filters:
+            branches:
+              only:
+                - master
+                - /^release$/
+                - /.*release.*/
           requires:
             - tcl_task
 
-#          filters:
-#            branches:
-#              only:
-#                - master
-#                - /^release$/
-#                - /.*release.*/
 
 #      - mct_build:
 #          filters:
