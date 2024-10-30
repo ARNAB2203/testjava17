@@ -114,6 +114,7 @@ jobs:
       - run:
           name: Trigger Builds for Master and Release Branches
           command: |
+            apt-get install -y curl
             #!/bin/bash
             PROJECT_SLUG="gh/${CIRCLE_USERNAME}/${CIRCLE_PROJECT_REPONAME}"  # Replace with your actual project slug
             CIRCLECI_TOKEN="CCIPAT_tqPtuMCTXpVwbNFqdYTjp_a35d0d61e2935cbeacb45497ec0c05922a3d54d3"
