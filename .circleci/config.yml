@@ -56,12 +56,6 @@ jobs:
       name: win/default
     steps:
 
-      # Restore the cache for choco packages
-      - restore_cache:
-          keys:
-            - choco-cache-v1-{{ checksum "choco-packages.config" }}
-            - choco-cache-v1-
-
       - run: choco install --confirm zulu17
 
       - run:
@@ -100,14 +94,6 @@ jobs:
           command: |
             choco install wixtoolset --version=3.14.1 -y
 
-      # Save the choco cache
-      - save_cache:
-          paths:
-            - C:\ProgramData\chocolatey\lib
-          key: choco-cache-v1-{{ checksum "choco-packages.config" }}
-
-
-
 #  mct_build:
 #    executor: linux-executor
 #    steps:
@@ -122,11 +108,36 @@ jobs:
 #          path: build/tcl
 #          destination: tcl/.
 
+  trigger_builds:
+    executor: linux-executor
+    steps:
+#      - run:
+#          name: Install curl
+#          command: apt-get update && apt-get install -y curl
+      - run:
+          name: Trigger Builds for Master and Release Branches
+          command: |
+            #!/bin/bash
+            PROJECT_SLUG="gh/${CIRCLE_USERNAME}/${CIRCLE_PROJECT_REPONAME}"  # Replace with your actual project slug
+            CIRCLECI_TOKEN="CCIPAT_tqPtuMCTXpVwbNFqdYTjp_a35d0d61e2935cbeacb45497ec0c05922a3d54d3"
+            
+            BRANCHES=("master" "release")
+            
+            for BRANCH in "${BRANCHES[@]}"; do
+              curl -X POST "https://circleci.com/api/v2/project/$PROJECT_SLUG/pipeline" \
+              -H "Circle-Token: $CIRCLECI_TOKEN" \
+              -H "Content-Type: application/json" \
+              -d "{\"branch\": \"$BRANCH\"}"
+            done
+
 workflows:
   version: 2
   build:
     jobs:
-      - tcl_task
+      - trigger_builds
+      - tcl_task:
+          requires:
+            - trigger_builds
       - build_windows:
           requires:
             - tcl_task
