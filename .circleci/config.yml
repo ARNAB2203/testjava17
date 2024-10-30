@@ -6,7 +6,7 @@ orbs:
 executors:
   linux-executor:
     docker:
-      - image: arnab2203/test_linux_image:1.2  # Pre-built Linux Docker image
+      - image: arnab2203/test_linux_image:cache2.1  # Pre-built Linux Docker image
 #      - image: arnab2203/test_windows_image:1.1  # Pre-built Linux Docker image
 
 #  windows-executor:
