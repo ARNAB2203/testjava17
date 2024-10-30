@@ -109,7 +109,7 @@ jobs:
 #          destination: tcl/.
 
   trigger_builds:
-    executor: ubuntu-20_04
+    executor: linux-executor
     steps:
       - run:
           name: Trigger Builds for Master and Release Branches
