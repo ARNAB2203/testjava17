@@ -25,7 +25,7 @@ jobs:
       TERM: dumb
 
     steps:
-      - run: chmod +x ./gradlew
+
       - run:
           name: git version
           command: 'git --version'
@@ -70,7 +70,9 @@ jobs:
 
       - run:
           name: Gradle Version
-          command: './gradlew -v'
+          command: |
+            chmod +x ./gradlew
+            ./gradlew -v
 
       - run:
           name: Install Pandoc
