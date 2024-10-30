@@ -4,3 +4,4 @@ build
 /debug
 workspace.xml
 .idea
+.idea/workspace.xml

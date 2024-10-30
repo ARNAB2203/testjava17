@@ -6,26 +6,19 @@ ENV GRADLE_VERSION=8.2
 ENV GRADLE_HOME=/opt/gradle
 ENV PATH=${GRADLE_HOME}/gradle-${GRADLE_VERSION}/bin:${PATH}
 
-# Install necessary tools
-RUN apt-get update && apt-get install -y && apt-get install wget -y \
-    git \
-    openssh-client \
-    fakeroot \
-    pandoc \
-    graphviz \
-    texlive-latex-recommended \
-    texlive-fonts-recommended \
-    python3-pip \
-    gettext-base \
+# Install necessary tools and clean up afterwards to reduce image size
+RUN apt-get update && \
+    apt-get install -y wget curl git openssh-client fakeroot pandoc graphviz \
+    texlive-latex-recommended texlive-fonts-recommended python3-pip  \
     unzip \
-    curl \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    gettext-base && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-# Set environment variables
-ENV JVM_OPTS=-Xmx2048m
-ENV GRADLE_OPTS=-Xmx2048m -Dorg.gradle.daemon=false
-ENV TERM=dumb
+# Set JVM and Gradle options
+ENV JVM_OPTS="-Xmx2048m"
+ENV GRADLE_OPTS="-Xmx2048m -Dorg.gradle.daemon=false"
+ENV TERM="dumb"
 
 # Download and install Gradle
 RUN wget https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-all.zip && \

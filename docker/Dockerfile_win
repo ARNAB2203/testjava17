@@ -1,17 +1,25 @@
 # Use the Windows Server Core base image
-FROM mcr.microsoft.com/windows/server:ltsc2022
+FROM mcr.microsoft.com/windows/servercore:10.0.20348.2762
 
 # Set the working directory
-WORKDIR /app
+WORKDIR C:/mopria
 
 # Install Chocolatey
 RUN powershell -Command \
     Set-ExecutionPolicy Bypass -Scope Process -Force; \
     [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12; \
-    iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+    iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
+
+# Install Visual C++ Redistributable (vcredist140) first
+RUN choco install vcredist140 -y
 
 # Install necessary packages
-RUN choco install --yes zulu17 pandoc rsvg-convert python miktex wixtoolset
+RUN choco install --yes zulu17 pandoc
+
+RUN choco install rsvg-convert python miktex -y
+
+RUN choco install wixtoolset --version=3.14.1 -y
 
 # Install .NET Framework
 RUN powershell -Command Install-WindowsFeature Net-Framework-Core

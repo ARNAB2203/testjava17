@@ -1,15 +1,20 @@
 version: 2.1
 
+orbs:
+  win: circleci/windows@5.0
+
 executors:
   linux-executor:
     docker:
-      - image: arnab2203/test_windows_image:1.1  # Pre-built Linux Docker image
+      - image: arnab2203/test_linux_image:cache2.1  # Pre-built Linux Docker image
+#      - image: arnab2203/test_windows_image:1.1  # Pre-built Linux Docker image
 
-  windows-executor:
-    machine:
-      image: my-windows-ci-image  # Pre-built Windows Docker image
-    resource_class: windows.xlarge
-    shell: powershell.exe -ExecutionPolicy Bypass
+#  windows-executor:
+#    working_directory: ~/project
+#    resource_class: large
+#    docker:
+#      - image: mopriadevteam/win_exec:2.1
+#    shell: powershell.exe -ExecutionPolicy Bypass
 
 jobs:
   tcl_task:
@@ -20,6 +25,7 @@ jobs:
       TERM: dumb
 
     steps:
+
       - run:
           name: git version
           command: 'git --version'
@@ -30,14 +36,6 @@ jobs:
 
       - checkout
 
-#      - run:
-#          name: Calculate dependency hash
-#          command: mkdir build && cat $(find -name "build.gradle" | sort) .circleci/config_1.yml >build/allconfig
-
-#      - restore_cache:
-#          keys:
-#            - deps-{{ checksum "build.gradle" }}
-
       - run:
           name: Pandoc version
           command: 'pandoc --version'
@@ -46,120 +44,111 @@ jobs:
           name: Texlive version
           command: 'tex --version'
 
-#      - run:
-#          name: Gradle Version
-#          command: './gradlew -v'
+      - run: 'chmod +x ./gradlew'
 
-#      - run:
-#          name: Build TCL Docs
-#          command: ./gradlew -Dorg.gradle.parallel=true -Dorg.gradle.daemon=true printVersion archive --stacktrace
+      - run:
+          name: Gradle Version
+          command: './gradlew -v'
 
-#      - save_cache:
-#          paths:
-#            - ~/.gradle
-#          key: deps-{{ checksum "build.gradle" }}
-
-#      - store_artifacts:
-#          path: build/doc/tcl
-#          destination: tcl
-
-#      - persist_to_workspace:
-#          root: build/doc
-#          paths:
-#            - tcl
 
   build_windows:
-    executor: windows-executor
+    executor:
+      name: win/default
     steps:
+
+      - run: choco install --confirm zulu17
+
       - run:
           name: Print Java Version
           command: 'java -version'
 
       - checkout
 
+      # Grant executable permission to gradlew
+      - run:
+          name: Set gradlew executable permission
+          command: 'chmod +x ./gradlew'
+
       - run:
           name: Gradle Version
           command: './gradlew -v'
 
       - run:
-          name: Build for Windows
-          shell: bash.exe
-          command: ./gradlew printVersion dependencies buildDocs jpackage check generateLicenseReport --stacktrace
+          name: Install Pandoc
+          command: |
+            choco install pandoc -y
+            choco install rsvg-convert python miktex -y
 
       - run:
-          name: Rename Build Files
-          shell: powershell.exe
+          name: Pandoc version
+          command: 'pandoc --version'
+
+      # Check Chocolatey version
+      - run:
+          name: Check choco version
           command: |
-            $GIT_TAG = git describe --tags (git rev-list --tags --max-count=1)
-            Write-Host "Git tag: $GIT_TAG"
-            $GIT_DESCRIBE = git describe --tags --abbrev=7 --match "v1.9*" # v1.9 tags only
-            Write-Host "Git describe: $GIT_DESCRIBE"
-            if ($env:CIRCLE_BRANCH -like "*master*" -or $env:CIRCLE_BRANCH -like "*release*") {
-              $BRANCH_NAME = ""
-            }
-            else {
-              $BRANCH_NAME = ".$($env:CIRCLE_BRANCH -replace '/', '-')"
-            }
-            if ($env:CIRCLE_BRANCH -and $env:CIRCLE_SHA1) {
-              $VERSION_STRING = "$GIT_DESCRIBE$BRANCH_NAME"
-              Write-Host "Version string: $VERSION_STRING"
-              mv build/jpackage/*.exe "build/jpackage/mct_installable-$VERSION_STRING.exe"
-            }
+            choco --version
 
+      - run:
+          name: Install WiX Toolset
+          command: |
+            choco install wixtoolset --version=3.14.1 -y
 
-      - attach_workspace:
-          at: build/doc/tcl
+#  mct_build:
+#    executor: linux-executor
+#    steps:
+#      - attach_workspace:
+#          at: build
+#
+#      - store_artifacts:
+#          path: build/jpackage
+#          destination: .
+#
+#      - store_artifacts:
+#          path: build/tcl
+#          destination: tcl/.
 
-      - store_artifacts:
-          path: build/doc/tcl
-          destination: .
-
-      - store_artifacts:
-          path: build/jpackage
-          destination: .
-
-      - persist_to_workspace:
-          root: build
-          paths:
-            - 'jpackage/*.exe'
-
-  mct_build:
+  trigger_builds:
     executor: linux-executor
     steps:
-      - attach_workspace:
-          at: build
-
-      - store_artifacts:
-          path: build/jpackage
-          destination: .
-
-      - store_artifacts:
-          path: build/tcl
-          destination: tcl/.
+#      - run:
+#          name: Install curl
+#          command: apt-get update && apt-get install -y curl
+      - run:
+          name: Trigger Builds for Master and Release Branches
+          command: |
+            #!/bin/bash
+            PROJECT_SLUG="gh/${CIRCLE_USERNAME}/${CIRCLE_PROJECT_REPONAME}"  # Replace with your actual project slug
+            CIRCLECI_TOKEN="CCIPAT_tqPtuMCTXpVwbNFqdYTjp_a35d0d61e2935cbeacb45497ec0c05922a3d54d3"
+            
+            BRANCHES=("master" "release")
+            
+            for BRANCH in "${BRANCHES[@]}"; do
+              curl -X POST "https://circleci.com/api/v2/project/$PROJECT_SLUG/pipeline" \
+              -H "Circle-Token: $CIRCLECI_TOKEN" \
+              -H "Content-Type: application/json" \
+              -d "{\"branch\": \"$BRANCH\"}"
+            done
 
 workflows:
   version: 2
   build:
     jobs:
+      - trigger_builds
       - tcl_task:
-          filters:
-            branches:
-              only:
-                - master
-                - /^release$/
-                - /.*release.*/
-                - /^issue/
-                - /.*issue.*/
+          requires:
+            - trigger_builds
+      - build_windows:
+          requires:
+            - tcl_task
 
-#      - build_windows:
 #          filters:
 #            branches:
 #              only:
 #                - master
 #                - /^release$/
 #                - /.*release.*/
-#          requires:
-#            - tcl_task
+
 #      - mct_build:
 #          filters:
 #            branches:
