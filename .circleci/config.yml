@@ -10,6 +10,7 @@ executors:
       - image: mopriadevteam/win_exec:1.1  # Pre-built Windows Docker image
     resource_class: large
     shell: powershell.exe -ExecutionPolicy Bypass
+    machine: windows/default
 
 jobs:
   tcl_task:
