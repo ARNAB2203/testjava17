@@ -111,10 +111,9 @@ jobs:
   trigger_builds:
     executor: linux-executor
     steps:
-      # Install curl
-      - run:
-          name: Install curl
-          command: apt-get update && apt-get install -y curl
+#      - run:
+#          name: Install curl
+#          command: apt-get update && apt-get install -y curl
       - run:
           name: Trigger Builds for Master and Release Branches
           command: |

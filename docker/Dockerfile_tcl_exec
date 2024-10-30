@@ -8,7 +8,7 @@ ENV PATH=${GRADLE_HOME}/gradle-${GRADLE_VERSION}/bin:${PATH}
 
 # Install necessary tools and clean up afterwards to reduce image size
 RUN apt-get update && \
-    apt-get install -y wget git openssh-client fakeroot pandoc graphviz \
+    apt-get install -y wget curl git openssh-client fakeroot pandoc graphviz \
     texlive-latex-recommended texlive-fonts-recommended python3-pip  \
     unzip \
     gettext-base && \

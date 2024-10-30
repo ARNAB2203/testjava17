@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b1ce7272-67c4-416b-a9b0-dbf8531e1119" name="Changes" comment="gradle permission.">
+    <list default="true" id="b1ce7272-67c4-416b-a9b0-dbf8531e1119" name="Changes" comment="curl added">
       <change beforePath="$PROJECT_DIR$/.circleci/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.circleci/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/Dockerfile_tcl_exec" beforeDir="false" afterPath="$PROJECT_DIR$/docker/Dockerfile_tcl_exec" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/Dockerfile_tcl_task" beforeDir="false" afterPath="$PROJECT_DIR$/docker/Dockerfile_tcl_task" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,7 +99,7 @@
     "Gradle.hellofx [run].executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Rebasing master",
+    "git-widget-placeholder": "Rebasing issue/feature",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/Acer TravelMate/Desktop/Java17Test/Modular_Sample/hellofx/docker",
     "settings.editor.selected.configurable": "preferences.pluginManager"
@@ -108,7 +111,7 @@
       <recent name="C:\Users\Acer TravelMate\Desktop\Java17Test\Modular_Sample\hellofx\.circleci" />
     </key>
   </component>
-  <component name="RunManager" selected="Docker.docker/Dockerfile_tcl_task">
+  <component name="RunManager" selected="Docker.docker/Dockerfile_tcl_exec">
     <configuration name="hellofx [jpackage]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -185,8 +188,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Docker.docker/Dockerfile_tcl_task" />
         <item itemvalue="Docker.docker/Dockerfile_tcl_exec" />
+        <item itemvalue="Docker.docker/Dockerfile_tcl_task" />
         <item itemvalue="Docker.docker/Dockerfile_win" />
         <item itemvalue="Gradle.hellofx [run]" />
         <item itemvalue="Gradle.hellofx [jpackage]" />
@@ -433,7 +436,47 @@
       <option name="project" value="LOCAL" />
       <updated>1730314341108</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="gradle permission.">
+      <option name="closed" value="true" />
+      <created>1730314730617</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1730314730617</updated>
+    </task>
+    <task id="LOCAL-00030" summary="test trigger for pr">
+      <option name="closed" value="true" />
+      <created>1730317643564</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1730317643564</updated>
+    </task>
+    <task id="LOCAL-00031" summary="test trigger for pr">
+      <option name="closed" value="true" />
+      <created>1730317730635</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1730317730635</updated>
+    </task>
+    <task id="LOCAL-00032" summary="curl added">
+      <option name="closed" value="true" />
+      <created>1730318043740</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1730318043740</updated>
+    </task>
+    <task id="LOCAL-00033" summary="curl added">
+      <option name="closed" value="true" />
+      <created>1730318410568</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1730318410568</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -446,6 +489,8 @@
     <MESSAGE value="orbs" />
     <MESSAGE value="checking build with cache" />
     <MESSAGE value="gradle permission." />
-    <option name="LAST_COMMIT_MESSAGE" value="gradle permission." />
+    <MESSAGE value="test trigger for pr" />
+    <MESSAGE value="curl added" />
+    <option name="LAST_COMMIT_MESSAGE" value="curl added" />
   </component>
 </project>
