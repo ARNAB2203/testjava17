@@ -68,11 +68,15 @@ jobs:
 
       - checkout
 
+      # Grant executable permission to gradlew
+      - run:
+          name: Set gradlew executable permission
+          command: chmod +x ./gradlew
+
       - run:
           name: Gradle Version
           command: |
             chmod +x ./gradlew
-            ./gradlew -v
 
       - run:
           name: Install Pandoc
