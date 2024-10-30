@@ -73,12 +73,11 @@ jobs:
       # Grant executable permission to gradlew
       - run:
           name: Set gradlew executable permission
-          command: chmod +x ./gradlew
+          command: 'chmod +x ./gradlew'
 
       - run:
           name: Gradle Version
-          command: |
-            chmod +x ./gradlew
+          command: './gradlew -v'
 
       - run:
           name: Install Pandoc
@@ -96,19 +95,10 @@ jobs:
           command: |
             choco --version
 
-
       - run:
           name: Install WiX Toolset
           command: |
             choco install wixtoolset --version=3.14.1 -y
-            
-      # Check WiX Toolset version
-      - run:
-          name: Check WiX Toolset version
-          command: |
-            candle.exe -v || echo "WiX Toolset is not installed"
-            light.exe -v || echo "WiX Toolset is not installed"
-            
 
       # Save the choco cache
       - save_cache:
