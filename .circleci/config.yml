@@ -79,6 +79,12 @@ jobs:
           command: './gradlew -v'
 
       - run:
+          name: Install Pandoc
+          command: |
+            choco install pandoc -y
+            choco install rsvg-convert python miktex -y
+
+      - run:
           name: Pandoc version
           command: 'pandoc --version'
 
