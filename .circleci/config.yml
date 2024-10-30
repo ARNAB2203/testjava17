@@ -6,7 +6,8 @@ orbs:
 executors:
   linux-executor:
     docker:
-      - image: arnab2203/test_windows_image:1.1  # Pre-built Linux Docker image
+      - image: arnab2203/test_linux_image:cache2.1  # Pre-built Linux Docker image
+#      - image: arnab2203/test_windows_image:1.1  # Pre-built Linux Docker image
 
 #  windows-executor:
 #    working_directory: ~/project
@@ -42,32 +43,24 @@ jobs:
           name: Texlive version
           command: 'tex --version'
 
-#      - run:
-#          name: Gradle Version
-#          command: './gradlew -v'
-#
-#      - run:
-#          name: Build TCL Docs
-#          command: ./gradlew -Dorg.gradle.parallel=true -Dorg.gradle.daemon=true printVersion archive --stacktrace
+      - run:
+          name: Gradle Version
+          command: './gradlew -v'
 
-#      - save_cache:
-#          paths:
-#            - ~/.gradle
-#          key: deps-{{ checksum "build.gradle" }}
-
-#      - store_artifacts:
-#          path: build/doc/tcl
-#          destination: tcl
-#
-#      - persist_to_workspace:
-#          root: build/doc
-#          paths:
-#            - tcl
 
   build_windows:
     executor:
       name: win/default
     steps:
+
+      # Restore the cache for choco packages
+      - restore_cache:
+          keys:
+            - choco-cache-v1-{{ checksum "choco-packages.config" }}
+            - choco-cache-v1-
+
+      - run: choco install --confirm zulu17
+
       - run:
           name: Print Java Version
           command: 'java -version'
@@ -94,12 +87,6 @@ jobs:
           command: |
             choco --version
 
-#      - run:
-#          name: Install Chocolatey
-#          command: |
-#            Set-ExecutionPolicy Bypass -Scope Process -Force; `
-#            [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; `
-#            iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 
       - run:
           name: Install WiX Toolset
@@ -112,48 +99,15 @@ jobs:
           command: |
             candle.exe -v || echo "WiX Toolset is not installed"
             light.exe -v || echo "WiX Toolset is not installed"
+            
 
-#      - run:
-#          name: Build for Windows
-#          shell: bash.exe
-#          command: ./gradlew printVersion dependencies buildDocs jpackage check generateLicenseReport --stacktrace
-#
-#      - run:
-#          name: Rename Build Files
-#          shell: powershell.exe
-#          command: |
-#            $GIT_TAG = git describe --tags (git rev-list --tags --max-count=1)
-#            Write-Host "Git tag: $GIT_TAG"
-#            $GIT_DESCRIBE = git describe --tags --abbrev=7 --match "v1.9*" # v1.9 tags only
-#            Write-Host "Git describe: $GIT_DESCRIBE"
-#            if ($env:CIRCLE_BRANCH -like "*master*" -or $env:CIRCLE_BRANCH -like "*release*") {
-#              $BRANCH_NAME = ""
-#            }
-#            else {
-#              $BRANCH_NAME = ".$($env:CIRCLE_BRANCH -replace '/', '-')"
-#            }
-#            if ($env:CIRCLE_BRANCH -and $env:CIRCLE_SHA1) {
-#              $VERSION_STRING = "$GIT_DESCRIBE$BRANCH_NAME"
-#              Write-Host "Version string: $VERSION_STRING"
-#              mv build/jpackage/*.exe "build/jpackage/mct_installable-$VERSION_STRING.exe"
-#            }
-#
-#
-#      - attach_workspace:
-#          at: build/doc/tcl
-#
-#      - store_artifacts:
-#          path: build/doc/tcl
-#          destination: .
-#
-#      - store_artifacts:
-#          path: build/jpackage
-#          destination: .
-#
-#      - persist_to_workspace:
-#          root: build
-#          paths:
-#            - 'jpackage/*.exe'
+      # Save the choco cache
+      - save_cache:
+          paths:
+            - C:\ProgramData\chocolatey\lib
+          key: choco-cache-v1-{{ checksum "choco-packages.config" }}
+
+
 
 #  mct_build:
 #    executor: linux-executor
