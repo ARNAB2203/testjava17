@@ -6,9 +6,9 @@ executors:
       - image: arnab2203/test_windows_image:1.1  # Pre-built Linux Docker image
 
   windows-executor:
-    machine:
-      image: my-windows-ci-image  # Pre-built Windows Docker image
-    resource_class: windows.xlarge
+    docker:
+      - image: mopriadevteam/win_exec:1.1  # Pre-built Windows Docker image
+    resource_class: xlarge
     shell: powershell.exe -ExecutionPolicy Bypass
 
 jobs:
@@ -73,85 +73,78 @@ jobs:
           name: Gradle Version
           command: './gradlew -v'
 
-      - run:
-          name: Build for Windows
-          shell: bash.exe
-          command: ./gradlew printVersion dependencies buildDocs jpackage check generateLicenseReport --stacktrace
+#      - run:
+#          name: Build for Windows
+#          shell: bash.exe
+#          command: ./gradlew printVersion dependencies buildDocs jpackage check generateLicenseReport --stacktrace
+#
+#      - run:
+#          name: Rename Build Files
+#          shell: powershell.exe
+#          command: |
+#            $GIT_TAG = git describe --tags (git rev-list --tags --max-count=1)
+#            Write-Host "Git tag: $GIT_TAG"
+#            $GIT_DESCRIBE = git describe --tags --abbrev=7 --match "v1.9*" # v1.9 tags only
+#            Write-Host "Git describe: $GIT_DESCRIBE"
+#            if ($env:CIRCLE_BRANCH -like "*master*" -or $env:CIRCLE_BRANCH -like "*release*") {
+#              $BRANCH_NAME = ""
+#            }
+#            else {
+#              $BRANCH_NAME = ".$($env:CIRCLE_BRANCH -replace '/', '-')"
+#            }
+#            if ($env:CIRCLE_BRANCH -and $env:CIRCLE_SHA1) {
+#              $VERSION_STRING = "$GIT_DESCRIBE$BRANCH_NAME"
+#              Write-Host "Version string: $VERSION_STRING"
+#              mv build/jpackage/*.exe "build/jpackage/mct_installable-$VERSION_STRING.exe"
+#            }
+#
+#
+#      - attach_workspace:
+#          at: build/doc/tcl
+#
+#      - store_artifacts:
+#          path: build/doc/tcl
+#          destination: .
+#
+#      - store_artifacts:
+#          path: build/jpackage
+#          destination: .
+#
+#      - persist_to_workspace:
+#          root: build
+#          paths:
+#            - 'jpackage/*.exe'
 
-      - run:
-          name: Rename Build Files
-          shell: powershell.exe
-          command: |
-            $GIT_TAG = git describe --tags (git rev-list --tags --max-count=1)
-            Write-Host "Git tag: $GIT_TAG"
-            $GIT_DESCRIBE = git describe --tags --abbrev=7 --match "v1.9*" # v1.9 tags only
-            Write-Host "Git describe: $GIT_DESCRIBE"
-            if ($env:CIRCLE_BRANCH -like "*master*" -or $env:CIRCLE_BRANCH -like "*release*") {
-              $BRANCH_NAME = ""
-            }
-            else {
-              $BRANCH_NAME = ".$($env:CIRCLE_BRANCH -replace '/', '-')"
-            }
-            if ($env:CIRCLE_BRANCH -and $env:CIRCLE_SHA1) {
-              $VERSION_STRING = "$GIT_DESCRIBE$BRANCH_NAME"
-              Write-Host "Version string: $VERSION_STRING"
-              mv build/jpackage/*.exe "build/jpackage/mct_installable-$VERSION_STRING.exe"
-            }
-
-
-      - attach_workspace:
-          at: build/doc/tcl
-
-      - store_artifacts:
-          path: build/doc/tcl
-          destination: .
-
-      - store_artifacts:
-          path: build/jpackage
-          destination: .
-
-      - persist_to_workspace:
-          root: build
-          paths:
-            - 'jpackage/*.exe'
-
-  mct_build:
-    executor: linux-executor
-    steps:
-      - attach_workspace:
-          at: build
-
-      - store_artifacts:
-          path: build/jpackage
-          destination: .
-
-      - store_artifacts:
-          path: build/tcl
-          destination: tcl/.
+#  mct_build:
+#    executor: linux-executor
+#    steps:
+#      - attach_workspace:
+#          at: build
+#
+#      - store_artifacts:
+#          path: build/jpackage
+#          destination: .
+#
+#      - store_artifacts:
+#          path: build/tcl
+#          destination: tcl/.
 
 workflows:
   version: 2
   build:
     jobs:
-      - tcl_task:
-          filters:
-            branches:
-              only:
-                - master
-                - /^release$/
-                - /.*release.*/
-                - /^issue/
-                - /.*issue.*/
+      - tcl_task
+      - build_windows:
+          requires:
+            - tcl_task
 
-#      - build_windows:
 #          filters:
 #            branches:
 #              only:
 #                - master
 #                - /^release$/
 #                - /.*release.*/
-#          requires:
-#            - tcl_task
+
 #      - mct_build:
 #          filters:
 #            branches:
