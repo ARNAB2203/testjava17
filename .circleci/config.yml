@@ -38,27 +38,27 @@ jobs:
           name: Texlive version
           command: 'tex --version'
 
-      - run:
-          name: Gradle Version
-          command: './gradlew -v'
+#      - run:
+#          name: Gradle Version
+#          command: './gradlew -v'
+#
+#      - run:
+#          name: Build TCL Docs
+#          command: ./gradlew -Dorg.gradle.parallel=true -Dorg.gradle.daemon=true printVersion archive --stacktrace
 
-      - run:
-          name: Build TCL Docs
-          command: ./gradlew -Dorg.gradle.parallel=true -Dorg.gradle.daemon=true printVersion archive --stacktrace
+#      - save_cache:
+#          paths:
+#            - ~/.gradle
+#          key: deps-{{ checksum "build.gradle" }}
 
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: deps-{{ checksum "build.gradle" }}
-
-      - store_artifacts:
-          path: build/doc/tcl
-          destination: tcl
-
-      - persist_to_workspace:
-          root: build/doc
-          paths:
-            - tcl
+#      - store_artifacts:
+#          path: build/doc/tcl
+#          destination: tcl
+#
+#      - persist_to_workspace:
+#          root: build/doc
+#          paths:
+#            - tcl
 
   build_windows:
     executor: windows-executor
