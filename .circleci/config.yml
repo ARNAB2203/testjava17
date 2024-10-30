@@ -78,6 +78,36 @@ jobs:
           name: Gradle Version
           command: './gradlew -v'
 
+      - run:
+          name: Pandoc version
+          command: 'pandoc --version'
+
+      # Check Chocolatey version
+      - run:
+          name: Check choco version
+          command: |
+            choco --version
+
+      # Check WiX Toolset version
+      - run:
+          name: Check WiX Toolset version
+          command: |
+            candle.exe -v || echo "WiX Toolset is not installed"
+            light.exe -v || echo "WiX Toolset is not installed"
+            
+
+      - run:
+          name: Install Chocolatey
+          command: |
+            Set-ExecutionPolicy Bypass -Scope Process -Force; `
+            [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; `
+            iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+
+      - run:
+          name: Install WiX Toolset
+          command: |
+            choco install wixtoolset --version=3.14.1 -y
+
 #      - run:
 #          name: Build for Windows
 #          shell: bash.exe
