@@ -25,6 +25,7 @@ jobs:
       TERM: dumb
 
     steps:
+      - run: chmod +x ./gradlew
       - run:
           name: git version
           command: 'git --version'
