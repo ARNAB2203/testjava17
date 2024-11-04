@@ -55,7 +55,7 @@ jobs:
           command: ./gradlew -Dorg.gradle.parallel=true -Dorg.gradle.daemon=true buildDocs convertMarkdownToPdf --stacktrace
 
       - store_artifacts:
-          path: build
+          path: project/doc
           destination: .
 
 
