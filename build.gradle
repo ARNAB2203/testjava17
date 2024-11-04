@@ -20,7 +20,7 @@ application {
 
 tasks.register('buildDocs', Exec) {
     description 'Create a user doc from doc/user.md. Requires pandoc and latex.'
-    workingDir "$rootProject.layout.buildDirectory/doc"
+    workingDir "$projectDir/doc"
     commandLine 'pandoc', '--toc', '-V', "title=Mopria Certification Tool User Guide", '-V', 'geometry:margin=1in',
             '-V', 'colorlinks', '-V', 'urlcolor=blue', '-V', 'geometry:a4paper',
             '-f', 'markdown-implicit_figures', '-o', 'input.pdf', 'input.md'
@@ -28,8 +28,8 @@ tasks.register('buildDocs', Exec) {
 
 tasks.register('convertMarkdownToPdf', Exec) {
     description = 'Convert Markdown to PDF'
-    println("Path >>> $rootProject.layout.buildDirectory")
-    workingDir "$rootProject.layout.buildDirectory/doc"
+    println("Path >>> $projectDir/doc")
+    workingDir "$projectDir/doc"
     commandLine 'pandoc', 'input.md', '-o', 'output.pdf'
 }
 
