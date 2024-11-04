@@ -50,6 +50,14 @@ jobs:
           name: Gradle Version
           command: './gradlew -v'
 
+      - run:
+          name: Build TCL Docs
+          command: ./gradlew -Dorg.gradle.parallel=true -Dorg.gradle.daemon=true buildDocs convertMarkdownToPdf --stacktrace
+
+      - store_artifacts:
+          path: build
+          destination: .
+
 
   build_windows:
     executor:
@@ -135,22 +143,22 @@ workflows:
   build:
     jobs:
 #      - trigger_builds
-      - tcl_task:
-          filters:
-            branches:
-              only:
-                - master
-                - /^release$/
-                - /.*release.*/
-      - build_windows:
-          filters:
-            branches:
-              only:
-                - master
-                - /^release$/
-                - /.*release.*/
-          requires:
-            - tcl_task
+      - tcl_task
+#          filters:
+#            branches:
+#              only:
+#                - master
+#                - /^release$/
+#                - /.*release.*/
+#      - build_windows:
+#          filters:
+#            branches:
+#              only:
+#                - master
+#                - /^release$/
+#                - /.*release.*/
+#          requires:
+#            - tcl_task
 
 
 #      - mct_build:
