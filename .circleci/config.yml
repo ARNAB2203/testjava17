@@ -1,183 +1,34 @@
 version: 2.1
 
-orbs:
-  win: circleci/windows@5.0
-
 executors:
-  linux-executor:
-    docker:
-      - image: mopriadevteam/custom_linux_img:tcl1.1  # Pre-built Linux Docker image
-#      - image: arnab2203/test_windows_image:1.1  # Pre-built Linux Docker image
-
-#  windows-executor:
-#    working_directory: ~/project
-#    resource_class: large
-#    docker:
-#      - image: mopriadevteam/win_exec:2.1
-#    shell: powershell.exe -ExecutionPolicy Bypass
+  windows-executor:
+    machine:
+      image: windows-server-2022-gui:current
+    resource_class: windows.medium
+    shell: powershell.exe -ExecutionPolicy Bypass
 
 jobs:
-  tcl_task:
-    executor: linux-executor
-    environment:
-      JVM_OPTS: -Xmx2048m
-      GRADLE_OPTS: -Xmx2048m -Dorg.gradle.daemon=false
-      TERM: dumb
-
-    steps:
-
-      - run:
-          name: git version
-          command: 'git --version'
-
-      - run:
-          name: ssh version
-          command: 'ssh -V'
-
-      - checkout
-
-      - run:
-          name: Pandoc version
-          command: 'pandoc --version'
-
-      - run:
-          name: Texlive version
-          command: 'tex --version'
-
-      - run: 'chmod +x ./gradlew'
-
-      - run:
-          name: Gradle Version
-          command: './gradlew -v'
-
-      - run:
-          name: Build TCL Docs
-          command: ./gradlew -Dorg.gradle.parallel=true -Dorg.gradle.daemon=true buildDocs convertMarkdownToPdf --stacktrace
-
-      - store_artifacts:
-          path: doc
-          destination: .
-
-      - attach_workspace:
-          at: doc/input.pdf
-
-      - attach_workspace:
-          at: doc/output.pdf
-
-
   build_windows:
-    executor:
-      name: win/default
+    executor: windows-executor
     steps:
-
-      - run: choco install --confirm zulu17
-
       - run:
           name: Print Java Version
           command: 'java -version'
 
       - checkout
 
-      - persist_to_workspace:
-          root: doc
-          paths:
-            - input.pdf
-
-      # Grant executable permission to gradlew
-#      - run:
-#          name: Set gradlew executable permission
-#          command: 'chmod +x ./gradlew'
-#
-#      - run:
-#          name: Gradle Version
-#          command: './gradlew -v'
-#
-#      - run:
-#          name: Install Pandoc
-#          command: |
-#            choco install pandoc -y
-#            choco install rsvg-convert python miktex -y
-#
-#      - run:
-#          name: Pandoc version
-#          command: 'pandoc --version'
-#
-#      # Check Chocolatey version
-#      - run:
-#          name: Check choco version
-#          command: |
-#            choco --version
-#
-#      - run:
-#          name: Install WiX Toolset
-#          command: |
-#            choco install wixtoolset --version=3.14.1 -y
-
-#  mct_build:
-#    executor: linux-executor
-#    steps:
-#      - attach_workspace:
-#          at: build
-#
-#      - store_artifacts:
-#          path: build/jpackage
-#          destination: .
-#
-#      - store_artifacts:
-#          path: build/tcl
-#          destination: tcl/.
-
-  trigger_builds:
-    executor: linux-executor
-    steps:
-#      - run:
-#          name: Install curl
-#          command: apt-get update && apt-get install -y curl
       - run:
-          name: Trigger Builds for Master and Release Branches
-          command: |
-            #!/bin/bash
-            PROJECT_SLUG="gh/${CIRCLE_USERNAME}/${CIRCLE_PROJECT_REPONAME}"  # Replace with your actual project slug
-            CIRCLECI_TOKEN="CCIPAT_tqPtuMCTXpVwbNFqdYTjp_a35d0d61e2935cbeacb45497ec0c05922a3d54d3"
-
-            BRANCHES=("master" "release")
-
-            for BRANCH in "${BRANCHES[@]}"; do
-              curl -X POST "https://circleci.com/api/v2/project/$PROJECT_SLUG/pipeline" \
-              -H "Circle-Token: $CIRCLECI_TOKEN" \
-              -H "Content-Type: application/json" \
-              -d "{\"branch\": \"$BRANCH\"}"
-            done
+          name: Gradle Version
+          command: './gradlew -v'
 
 workflows:
   version: 2
   build:
     jobs:
-#      - trigger_builds
-      - tcl_task
-#          filters:
-#            branches:
-#              only:
-#                - master
-#                - /^release$/
-#                - /.*release.*/
       - build_windows:
-#          filters:
-#            branches:
-#              only:
-#                - master
-#                - /^release$/
-#                - /.*release.*/
-          requires:
-            - tcl_task
-
-
-#      - mct_build:
-#          filters:
-#            branches:
-#              only:
-#                - master
-#                - /^release$/
-#                - /.*release.*/
-#          requires:
-#            - build_windows
+          filters:
+            branches:
+              only:
+                - master
+                - /^release$/
+                - /.*release.*/
