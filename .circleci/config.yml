@@ -58,6 +58,12 @@ jobs:
           path: doc
           destination: .
 
+      - attach_workspace:
+          at: doc/input.pdf
+
+      - attach_workspace:
+          at: doc/output.pdf
+
 
   build_windows:
     executor:
@@ -72,35 +78,40 @@ jobs:
 
       - checkout
 
+      - persist_to_workspace:
+          root: doc
+          paths:
+            - input.pdf
+
       # Grant executable permission to gradlew
-      - run:
-          name: Set gradlew executable permission
-          command: 'chmod +x ./gradlew'
-
-      - run:
-          name: Gradle Version
-          command: './gradlew -v'
-
-      - run:
-          name: Install Pandoc
-          command: |
-            choco install pandoc -y
-            choco install rsvg-convert python miktex -y
-
-      - run:
-          name: Pandoc version
-          command: 'pandoc --version'
-
-      # Check Chocolatey version
-      - run:
-          name: Check choco version
-          command: |
-            choco --version
-
-      - run:
-          name: Install WiX Toolset
-          command: |
-            choco install wixtoolset --version=3.14.1 -y
+#      - run:
+#          name: Set gradlew executable permission
+#          command: 'chmod +x ./gradlew'
+#
+#      - run:
+#          name: Gradle Version
+#          command: './gradlew -v'
+#
+#      - run:
+#          name: Install Pandoc
+#          command: |
+#            choco install pandoc -y
+#            choco install rsvg-convert python miktex -y
+#
+#      - run:
+#          name: Pandoc version
+#          command: 'pandoc --version'
+#
+#      # Check Chocolatey version
+#      - run:
+#          name: Check choco version
+#          command: |
+#            choco --version
+#
+#      - run:
+#          name: Install WiX Toolset
+#          command: |
+#            choco install wixtoolset --version=3.14.1 -y
 
 #  mct_build:
 #    executor: linux-executor
@@ -150,15 +161,15 @@ workflows:
 #                - master
 #                - /^release$/
 #                - /.*release.*/
-#      - build_windows:
+      - build_windows:
 #          filters:
 #            branches:
 #              only:
 #                - master
 #                - /^release$/
 #                - /.*release.*/
-#          requires:
-#            - tcl_task
+          requires:
+            - tcl_task
 
 
 #      - mct_build:
